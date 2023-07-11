@@ -94,6 +94,30 @@ local plugins = {
     event = {"CmdlineEnter"},
     ft = {"go", 'gomod'},
     build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
-  }
+  },
+  {
+    "echasnovski/mini.comment",
+    version = false,
+    config = function()
+      require("mini.comment").setup {
+        mappings = {
+          -- C-/ to comment
+          comment_line = "<C-_>",
+          comment = "<C-_>",
+        },
+        options = {
+          ignore_blank_line = true,
+        },
+      }
+    end,
+  },
+  {
+    "echasnovski/mini.trailspace"
+  },
+  {
+    "echasnovski/mini.move"
+  },
 }
+
+
 return plugins
