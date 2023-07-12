@@ -1,6 +1,6 @@
 vim.g.dap_virtual_text = true
 
-local autocmd = vim.api.nvim_create_autocmd
+local autocmd = vim.api.nvim_create_autocmd 
 local command = vim.api.nvim_create_user_command
 
 -- Disable continuation comment on next line

@@ -38,8 +38,8 @@ local plugins = {
   {
     "jose-elias-alvarez/null-ls.nvim",
     event = "VeryLazy",
-    opts = function()
-      --return require "custom.configs.null-ls"
+    config = function()
+      require "custom.configs.null-ls"
     end,
   },
   {
@@ -127,7 +127,7 @@ local plugins = {
     init = function ()
       vim.g.rustfmt_autosave = 1
     end
-  }, 
+  },
   {
     "echasnovski/mini.comment",
     version = false,
@@ -145,7 +145,11 @@ local plugins = {
     end,
   },
   {
-    "echasnovski/mini.trailspace"
+    'echasnovski/mini.trailspace',
+    version = false,
+    config = function()
+      require('mini.trailspace').setup()
+    end
   },
   {
     "echasnovski/mini.move"
