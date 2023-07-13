@@ -56,6 +56,7 @@ local plugins = {
         "lua-language-server",
         "gopls",
         "clangd",
+        "rust-analyzer",
         "clang-format",
         "codelldb",
       }
