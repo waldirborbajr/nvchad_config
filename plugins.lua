@@ -35,13 +35,13 @@ local plugins = {
       require("core.utils").load_mappings("dap")
     end
   },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    event = "VeryLazy",
-    config = function()
-      require "custom.configs.null-ls"
-    end,
-  },
+  -- {
+  --   "jose-elias-alvarez/null-ls.nvim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require "custom.configs.null-ls"
+  --   end,
+  -- },
   {
     "neovim/nvim-lspconfig",
     config = function()
