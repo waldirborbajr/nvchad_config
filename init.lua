@@ -1,7 +1,13 @@
+local autocmd = vim.api.nvim_create_autocmd
+local command = vim.api.nvim_create_user_command
+
 vim.g.dap_virtual_text = true
 
-local autocmd = vim.api.nvim_create_autocmd 
-local command = vim.api.nvim_create_user_command
+-- Auto resize panes when resizing nvim window
+-- autocmd("VimResized", {
+--   pattern = "*",
+--   command = "tabdo wincmd =",
+-- })
 
 -- Disable continuation comment on next line
 autocmd("User", {

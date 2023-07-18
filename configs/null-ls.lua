@@ -1,44 +1,25 @@
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-local null_ls = require("null-ls")
-local formatting = null_ls.builtins.formatting
-local diagnostics = null_ls.builtins.diagnostics
+local present, null_ls = pcall(require, "null-ls")
 
-local opts = {
-  sources = {
-    null_ls.builtins.formatting.clang_format,
-    -- null_ls.builtins.formatting.gofumpt,
-    null_ls.builtins.formatting.gofmt,
-    null_ls.builtins.formatting.goimports_reviser,
-    null_ls.builtins.formatting.golines,
-    null_ls.builtins.formatting.stylua,
+if not present then
+  return
+end
 
-    -- Diagnostics
-    -- diagnostics.golangci_lint.with {
-    --   extra_args = { "--allow-parallel-runners" },
-    -- },
-    diagnostics.todo_comments,
-    diagnostics.trail_space,
+local b = null_ls.builtins
 
-    -- Formatting
-    formatting.trim_newlines,
-    formatting.trim_whitespace,
-  },
+local sources = {
 
-  on_attach = function(client, bufnr)
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({
-        group = augroup,
-        buffer = bufnr,
-      })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
-        buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = bufnr })
-        end,
-      })
-    end
-  end,
+  -- webdev stuff
+  b.formatting.deno_fmt, -- choosed deno for ts/js files cuz its very fast!
+  b.formatting.prettier.with { filetypes = { "html", "markdown", "css" } }, -- so prettier works only on these filetypes
+
+  -- Lua
+  b.formatting.stylua,
+
+  -- cpp
+  b.formatting.clang_format,
 }
 
-return opts
+null_ls.setup {
+  debug = true,
+  sources = sources,
+}
