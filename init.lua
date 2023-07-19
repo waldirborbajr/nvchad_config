@@ -10,10 +10,15 @@ vim.g.dap_virtual_text = true
 -- })
 
 -- Disable continuation comment on next line
-autocmd("User", {
-  desc = "no auto comment after pressing o",
-  pattern = "*",
-  command = "setlocal formatoptions-=cro",
+-- autocmd("User", {
+--   desc = "no auto comment after pressing o",
+--   pattern = "*",
+--   command = "setlocal formatoptions-=cro",
+-- })
+autocmd({ "BufEnter,BufNewFile" }, {
+    callback = function()
+        vim.bo.formatoptions = vim.bo.formatoptions:gsub("[cro]", "")
+    end,
 })
 
 -- Open Github repository
@@ -36,9 +41,20 @@ vim.api.nvim_exec([[
 ]], false)
 
 -- Auto format on save
-vim.api.nvim_exec([[
-  augroup auto-format
-      autocmd!
-      autocmd BufWritePre * lua vim.lsp.buf.format({sync = true})
-  augroup END
-]], false)
+-- vim.api.nvim_exec([[
+--   augroup auto-format
+--       autocmd!
+--       autocmd BufWritePre * lua vim.lsp.buf.format({sync = true})
+--   augroup END
+-- ]], false)
+autocmd({ "BufLeave" }, {
+    pattern = '*.go,*.py,*.lua,*rust',
+    callback = function()
+        local bufner = vim.api.nvim_get_current_buf()
+        if vim.api.nvim_buf_get_option(bufner, "modified") then
+            vim.lsp.buf.format(nil, bufner)
+            vim.fn.execute("silent! write")
+            -- vim.cmd("silent! wall")
+        end
+    end,
+})

@@ -97,6 +97,15 @@ local plugins = {
   --     require("core.utils").load_mappings("dap")
   --   end
   -- },
+  -- {
+  --   "dreamsofcode-io/nvim-dap-go",
+  --   ft = "go",
+  --   dependencies = "mfussenegger/nvim-dap",
+  --   config = function(_, opts)
+  --     require("dap-go").setup(opts)
+  --     require("core.utils").load_mappings "dap_go"
+  --   end,
+  -- },
 
   -- GO
   {
@@ -201,6 +210,35 @@ local plugins = {
       "nvim-lua/plenary.nvim",
     },
   },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   build = ":Copilot auth",
+  --   event = "InsertEnter",
+  --   config = function()
+  --     require("copilot").setup {}
+  --   end,
+  -- },
+  -- {
+  --   "zbirenbaum/copilot-cmp",
+  --   config = function()
+  --     require("copilot_cmp").setup()
+  --   end,
+  -- },
+  -- {
+  --   "dreamsofcode-io/ChatGPT.nvim",
+  --   event = "VeryLazy",
+  --   dependencies = {
+  --     "MunifTanjim/nui.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-telescope/telescope.nvim",
+  --   },
+  --   config = function()
+  --     require("chatgpt").setup {
+  --       api_key_cmd = "op read --account my.1password.com op://private/OpenAI/credential --no-newline",
+  --     }
+  --   end,
+  -- },
 }
 
 return plugins

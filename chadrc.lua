@@ -12,6 +12,12 @@ M.ui = {
   hl_add = highlights.add,
 
   transparency = false,
+
+  -- statusline = { theme = "minimal", separator_style = "round" },
+  
+  -- Add the following options:
+  timeoutlen = 10,
+  termguicolors = true,
 }
 
 M.plugins = "custom.plugins"

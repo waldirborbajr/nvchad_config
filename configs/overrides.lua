@@ -31,6 +31,9 @@ M.mason = {
     -- lua stuff
     "lua-language-server",
     "stylua",
+    "gofumpt",
+    "gotests",
+    "golines",
     "gopls",
     "rust-analyzer",
     "clang-format",
