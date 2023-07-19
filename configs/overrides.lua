@@ -43,8 +43,10 @@ M.mason = {
     -- "css-lsp",
     -- "html-lsp",
     -- "typescript-language-server",
+    -- "vscode-css-language-server",
+    -- "vscode-html-language-server",
     -- "deno",
-    -- "prettier",
+    -- "prettier", 
 
     -- c/cpp stuff
     "clangd",

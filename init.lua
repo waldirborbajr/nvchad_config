@@ -2,6 +2,10 @@ local autocmd = vim.api.nvim_create_autocmd
 local command = vim.api.nvim_create_user_command
 
 vim.g.dap_virtual_text = true
+vim.opt.conceallevel = 2
+vim.opt.spell = true
+vim.opt.spelllang = { "en" }
+vim.opt.scrolloff = 3
 
 -- Auto resize panes when resizing nvim window
 -- autocmd("VimResized", {

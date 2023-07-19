@@ -13,6 +13,8 @@ M.ui = {
 
   transparency = false,
 
+  lsp_semantic_tokens = true,
+
   -- statusline = { theme = "minimal", separator_style = "round" },
   
   -- Add the following options:
