@@ -5,6 +5,8 @@ local lspconfig = require "lspconfig"
 
 local util = require "lspconfig/util"
 
+-- local eslint = require("custom.eslint")
+
 -- if you just want default config for the servers then put them in a table
 -- local servers = { "html", "cssls", "tsserver", "clangd" }
 local servers = { "clangd" }
@@ -18,6 +20,15 @@ end
 
 -- 
 -- lspconfig.pyright.setup { blabla}
+
+--lspconfig for tailwindcss
+-- lspconfig.tailwindcss.setup({})
+--
+-- lspconfig.volar.setup({})
+--
+-- lspconfig.eslint.setup({
+-- 	cmd = { "vscode-eslint-language-server", "--stdio" },
+-- })
 
 lspconfig.gopls.setup {
   on_attach = on_attach,
@@ -40,3 +51,17 @@ lspconfig.gopls.setup {
     },
   },
 }
+
+lspconfig.rust_analyzer.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	filetypes = { "rust" },
+	root_dir = util.root_pattern("Cargo.toml"),
+	settings = {
+		["rust_analyzer"] = {
+			cargo = {
+				allFeatures = true,
+			},
+		},
+	},
+})

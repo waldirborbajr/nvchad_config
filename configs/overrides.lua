@@ -9,6 +9,8 @@ M.treesitter = {
     -- "javascript",
     -- "typescript",
     -- "tsx",
+    -- "vue", 
+
     "c",
     "markdown",
     "markdown_inline",
@@ -45,8 +47,10 @@ M.mason = {
     -- "typescript-language-server",
     -- "vscode-css-language-server",
     -- "vscode-html-language-server",
+    --     "tailwindcss-language-server",
     -- "deno",
     -- "prettier", 
+    --     "eslint",
 
     -- c/cpp stuff
     "clangd",
