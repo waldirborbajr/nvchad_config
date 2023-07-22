@@ -8,8 +8,8 @@ local util = require "lspconfig/util"
 -- local eslint = require("custom.eslint")
 
 -- if you just want default config for the servers then put them in a table
--- local servers = { "html", "cssls", "tsserver", "clangd" }
-local servers = { "clangd" }
+-- local servers = { "html", "cssls", "tsserver", "clangd", "tailwindcss" }
+local servers = { "clangd" , "bashls"}
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
