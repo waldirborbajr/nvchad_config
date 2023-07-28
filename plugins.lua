@@ -1,4 +1,4 @@
-local overrides = require("custom.configs.overrides")
+local overrides = require "custom.configs.overrides"
 
 ---@type NvPluginSpec[]
 local plugins = {
@@ -7,15 +7,15 @@ local plugins = {
 
   {
     "neovim/nvim-lspconfig",
-    -- dependencies = {
-    --   -- format & linting
-    --   {
-    --     "jose-elias-alvarez/null-ls.nvim",
-    --     config = function()
-    --       require "custom.configs.null-ls"
-    --     end,
-    --   },
-    -- },
+    dependencies = {
+      -- format & linting
+      {
+        "jose-elias-alvarez/null-ls.nvim",
+        config = function()
+          require "custom.configs.null-ls"
+        end,
+      },
+    },
     config = function()
       require "plugins.configs.lspconfig"
       require "custom.configs.lspconfig"
@@ -25,7 +25,7 @@ local plugins = {
   -- override plugin configs
   {
     "williamboman/mason.nvim",
-    opts = overrides.mason
+    opts = overrides.mason,
   },
 
   {
@@ -60,52 +60,137 @@ local plugins = {
   --   "mg979/vim-visual-multi",
   --   lazy = false,
   -- }
-  
+
+  -- Add completion to DAP buffers
   -- {
-  --   "rcarriga/nvim-dap-ui",
-  --   event = "VeryLazy",
-  --   dependencies = "mfussenegger/nvim-dap",
-  --   config = function()
-  --     local dap = require("dap")
-  --     local dapui = require("dapui")
-  --     dapui.setup()
-  --     dap.listeners.after.event_initialized["dapui_config"] = function()
-  --       dapui.open()
-  --     end
-  --     dap.listeners.before.event_terminated["dapui_config"] = function()
-  --       dapui.close()
-  --     end
-  --     dap.listeners.before.event_exited["dapui_config"] = function()
-  --       dapui.close()
-  --     end
-  --   end
+  --   "hrsh7th/nvim-cmp",
+  --   opts = overrides.cmp,
   -- },
-  -- {
-  --   "jay-babu/mason-nvim-dap.nvim",
-  --   event = "VeryLazy",
-  --   dependencies = {
-  --     "williamboman/mason.nvim",
-  --     "mfussenegger/nvim-dap",
-  --   },
-  --   opts = {
-  --     handlers = {}
-  --   },
-  -- },
-  -- {
-  --   "mfussenegger/nvim-dap",
-  --   config = function(_, _)
-  --     require("core.utils").load_mappings("dap")
-  --   end
-  -- },
-  -- {
-  --   "dreamsofcode-io/nvim-dap-go",
-  --   ft = "go",
-  --   dependencies = "mfussenegger/nvim-dap",
-  --   config = function(_, opts)
-  --     require("dap-go").setup(opts)
-  --     require("core.utils").load_mappings "dap_go"
-  --   end,
-  -- },
+  {
+    "hrsh7th/nvim-cmp",
+    opts = {
+      enabled = function()
+        return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
+      end,
+    },
+  },
+
+  -- Inlay hints
+  {
+    "lvimuser/lsp-inlayhints.nvim",
+    config = function()
+      require("lsp-inlayhints").setup()
+    end,
+  },
+
+  -- Rust tools
+  {
+    "simrat39/rust-tools.nvim",
+    ft = "rust",
+    config = function()
+      require "custom.configs.rust-tools"
+    end,
+  },
+  {
+    "saecki/crates.nvim",
+    ft = { "rust", "toml" },
+    config = function(_, opts)
+      local crates = require "crates"
+      crates.setup(opts)
+      require("cmp").setup.buffer {
+        sources = { { name = "crates" } },
+      }
+      crates.show()
+      require("core.utils").load_mappings "crates"
+    end,
+  },
+  {
+    "rust-lang/rust.vim",
+    ft = "rust",
+    init = function()
+      vim.g.rustfmt_autosave = 1
+    end,
+  },
+
+  -- Flutter tools
+  {
+    "akinsho/flutter-tools.nvim",
+    ft = "dart",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "stevearc/dressing.nvim", -- optional for vim.ui.select
+    },
+    config = function()
+      require "custom.configs.flutter-tools"
+    end,
+  },
+
+  {
+    "windwp/nvim-ts-autotag",
+    ft = {
+      "html",
+      "javascript",
+      "typescript",
+      "javascriptreact",
+      "htmldjango",
+      "typescriptreact",
+      "svelte",
+      "vue",
+      "tsx",
+      "jsx",
+      "rescript",
+      "xml",
+      "php",
+      "markdown",
+      "astro",
+      "glimmer",
+      "handlebars",
+      "hbs",
+    },
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  },
+
+  -- Debugging adapter protocol
+  {
+    "mfussenegger/nvim-dap",
+    config = function()
+      require "custom.configs.dap"
+      require("core.utils").load_mappings "dap"
+    end,
+  },
+
+  -- Debugging ui
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+    },
+    config = function()
+      require "custom.configs.dap-ui"
+    end,
+  },
+
+  -- Debugging completion
+  {
+    "rcarriga/cmp-dap",
+    dependencies = "hrsh7th/nvim-cmp",
+    config = function()
+      require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+        sources = { { name = "dap" } },
+      })
+    end,
+  },
+
+  -- Debugging virtual text
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    dependencies = "mfussenegger/nvim-dap",
+    config = function()
+      require("nvim-dap-virtual-text").setup()
+    end,
+  },
 
   -- GO
   {
@@ -113,7 +198,7 @@ local plugins = {
     ft = "go",
     config = function(_, opts)
       require("gopher").setup(opts)
-      require("core.utils").load_mappings("gopher")
+      require("core.utils").load_mappings "gopher"
     end,
     build = function()
       vim.cmd [[silent! GoInstallDeps]]
@@ -125,12 +210,12 @@ local plugins = {
     dependencies = "mfussenegger/nvim-dap",
     config = function(_, opts)
       require("dap-go").setup(opts)
-      require("core.utils").load_mappings("dap_go")
-    end
+      require("core.utils").load_mappings "dap_go"
+    end,
   },
   {
     "ray-x/go.nvim",
-    dependencies = {  -- optional packages
+    dependencies = { -- optional packages
       "ray-x/guihua.lua",
       "neovim/nvim-lspconfig",
       "nvim-treesitter/nvim-treesitter",
@@ -138,42 +223,11 @@ local plugins = {
     config = function()
       require("go").setup()
     end,
-    event = {"CmdlineEnter"},
-    ft = {"go", 'gomod'},
-    build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+    event = { "CmdlineEnter" },
+    ft = { "go", "gomod" },
+    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
-  -- Rust
-  {
-    "simrat39/rust-tools.nvim",
-    ft = "rust",
-    dependencies = "neovim/nvim-lspconfig",
-    opts = function ()
-      return require "custom.configs.rust-tools"
-    end,
-    config = function(_, opts)
-      require('rust-tools').setup(opts)
-    end
-  },
-  {
-    'saecki/crates.nvim',
-    ft = {"rust", "toml"},
-    config = function(_, opts)
-      local crates  = require('crates')
-      crates.setup(opts)
-      require('cmp').setup.buffer({
-        sources = { { name = "crates" }}
-      })
-      crates.show()
-      require("core.utils").load_mappings("crates")
-    end,
-  },
-  {
-    "rust-lang/rust.vim",
-    ft = "rust",
-    init = function ()
-      vim.g.rustfmt_autosave = 1
-    end
-  },
+
   {
     "echasnovski/mini.comment",
     version = false,
@@ -190,55 +244,46 @@ local plugins = {
       }
     end,
   },
-  {
-    'echasnovski/mini.trailspace',
-    version = false,
-    config = function()
-      require('mini.trailspace').setup()
-    end
-  },
-  {
-    "echasnovski/mini.move"
-  },
+
   {
     "kdheepak/lazygit.nvim",
-    keys={
-      {"<leader>gg","<cmd>LazyGit<cr>", desc="LazyGit"},
+    keys = {
+      { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
     },
     -- optional for floating window border decoration
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
   },
-  -- {
-  --   "zbirenbaum/copilot.lua",
-  --   cmd = "Copilot",
-  --   build = ":Copilot auth",
-  --   event = "InsertEnter",
-  --   config = function()
-  --     require("copilot").setup {}
-  --   end,
-  -- },
-  -- {
-  --   "zbirenbaum/copilot-cmp",
-  --   config = function()
-  --     require("copilot_cmp").setup()
-  --   end,
-  -- },
-  -- {
-  --   "dreamsofcode-io/ChatGPT.nvim",
-  --   event = "VeryLazy",
-  --   dependencies = {
-  --     "MunifTanjim/nui.nvim",
-  --     "nvim-lua/plenary.nvim",
-  --     "nvim-telescope/telescope.nvim",
-  --   },
-  --   config = function()
-  --     require("chatgpt").setup {
-  --       api_key_cmd = "op read --account my.1password.com op://private/OpenAI/credential --no-newline",
-  --     }
-  --   end,
-  -- },
+
+  {
+    "zbirenbaum/copilot.lua",
+    config = function()
+      vim.schedule(function()
+        require("copilot").setup {
+          suggestion = { enabled = false },
+          panel = { enabled = false },
+          filetypes = {
+            gitcommit = true,
+            markdown = true,
+            nix = true,
+            yaml = true,
+          },
+        }
+      end)
+    end,
+  },
+
+  {
+    "zbirenbaum/copilot-cmp",
+    event = "InsertEnter",
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+    dependencies = {
+      "zbirenbaum/copilot.lua",
+    },
+  },
 }
 
 return plugins

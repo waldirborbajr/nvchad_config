@@ -1,5 +1,16 @@
 local M = {}
 
+M.cmp = {
+  sources = {
+    { name = "copilot" },
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+    { name = "buffer" },
+    { name = "nvim_lua" },
+    { name = "path" },
+  },
+}
+
 M.treesitter = {
   ensure_installed = {
     "vim",
@@ -9,22 +20,31 @@ M.treesitter = {
     -- "javascript",
     -- "typescript",
     -- "tsx",
-    -- "vue", 
-
     "c",
     "markdown",
     "markdown_inline",
-
+    "dockerfile",
+    -- "python",
+    "toml",
+    "rust",
     "go",
     "gomod",
-    "rust",
-    "toml",
+    "sql",
+    "json",
+    "jsonc",
+    "yaml",
+    "dart",
   },
   indent = {
     enable = true,
-    -- disable = {
-    --   "python"
-    -- },
+    disable = {
+      "dart",
+      "lua",
+      --   "python"
+    },
+  },
+  autotag = {
+    enable = true,
   },
 }
 
@@ -33,13 +53,6 @@ M.mason = {
     -- lua stuff
     "lua-language-server",
     "stylua",
-    "gofumpt",
-    "gotests",
-    "golines",
-    "gopls",
-    "rust-analyzer",
-    "clang-format",
-    "codelldb",
 
     -- web dev stuff
     -- "css-lsp",
@@ -47,14 +60,41 @@ M.mason = {
     -- "typescript-language-server",
     -- "vscode-css-language-server",
     -- "vscode-html-language-server",
-    --     "tailwindcss-language-server",
+    -- "tailwindcss-language-server",
     -- "deno",
-    -- "prettier", 
-    --     "eslint",
+    -- "prettier",
+    -- "eslint",
 
     -- c/cpp stuff
     "clangd",
     "clang-format",
+    -- go
+    "golangci-lint",
+    "golangci-lint-langserver",
+    "goimports",
+    "goimports-reviser",
+    "gopls",
+    -- "gofumpt",
+    -- "gotests",
+    -- "golines",
+
+    -- rust & GO stuff
+    "rust-analyzer",
+    "rustfmt",
+
+    -- toml
+    "taplo",
+
+    "codelldb",
+
+    -- yaml
+    "yamlfmt",
+    "yaml-language-server",
+    "yamllint",
+
+    -- docker
+    "dockerfile-language-server",
+    "hadolint",
   },
 }
 
