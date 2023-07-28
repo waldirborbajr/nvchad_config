@@ -206,6 +206,8 @@ local plugins = {
     end,
   },
 
+  { "nvim-telescope/telescope-dap.nvim" },
+
   -- GO
   {
     "olexsmir/gopher.nvim",
