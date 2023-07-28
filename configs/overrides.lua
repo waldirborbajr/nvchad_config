@@ -20,6 +20,8 @@ M.treesitter = {
     -- "javascript",
     -- "typescript",
     -- "tsx",
+    -- "astro",
+
     "c",
     "markdown",
     "markdown_inline",
@@ -27,8 +29,13 @@ M.treesitter = {
     -- "python",
     "toml",
     "rust",
+
+    -- GO
     "go",
     "gomod",
+    "gowork",
+    "gosum",
+
     "sql",
     "json",
     "jsonc",
@@ -42,6 +49,24 @@ M.treesitter = {
       "lua",
       --   "python"
     },
+  },
+  playground = {
+    enable = true,
+  },
+  rainbow = {
+    enable = true,
+    extended_mode = false,
+    max_file_lines = 1000,
+    query = {
+      "rainbow-parens",
+      html = "rainbow-tags",
+      javascript = "rainbow-tags-react",
+      tsx = "rainbow-tags",
+    },
+  },
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
   },
   autotag = {
     enable = true,
@@ -64,16 +89,22 @@ M.mason = {
     -- "deno",
     -- "prettier",
     -- "eslint",
+    -- "emmet-ls",
 
     -- c/cpp stuff
     "clangd",
     "clang-format",
+
     -- go
     "golangci-lint",
     "golangci-lint-langserver",
     "goimports",
     "goimports-reviser",
-    "gopls",
+    -- "gopls",
+    -- "impl",
+    -- "iferr",
+    -- "staticcheck",
+    "gomodifytags",
     -- "gofumpt",
     -- "gotests",
     -- "golines",
@@ -94,6 +125,7 @@ M.mason = {
 
     -- docker
     "dockerfile-language-server",
+    "yaml-language-server",
     "hadolint",
   },
 }
@@ -103,7 +135,6 @@ M.nvimtree = {
   git = {
     enable = true,
   },
-
   renderer = {
     highlight_git = true,
     icons = {
@@ -113,5 +144,64 @@ M.nvimtree = {
     },
   },
 }
+
+-- M.nvimtree = {
+--   filters = {
+--     dotfiles = false,
+--     custom = {
+--       "**/node_modules",
+--       "**/%.git",
+--       "**/%.github",
+--     },
+--   },
+--   git = {
+--     enable = true,
+--     ignore = false,
+--   },
+--   hijack_unnamed_buffer_when_opening = true,
+--   hijack_cursor = true,
+--   diagnostics = {
+--     enable = false,
+--     show_on_dirs = false,
+--     debounce_delay = 50,
+--     icons = {
+--       hint = "",
+--       info = "",
+--       warning = "",
+--       error = "",
+--     },
+--   },
+--   system_open = { cmd = "thunar" },
+--   sync_root_with_cwd = true,
+--   renderer = {
+--     highlight_opened_files = "name",
+--     highlight_git = true,
+--     group_empty = true,
+--     icons = {
+--       show = {
+--         git = true,
+--       },
+--       glyphs = {
+--         git = {
+--           unstaged = "",
+--           -- unstaged = "",
+--           staged = "",
+--           unmerged = "",
+--           renamed = "➜",
+--           -- untracked = "",
+--           untracked = "",
+--           deleted = "",
+--           ignored = "◌",
+--         },
+--       },
+--     },
+--   },
+--   tab = {
+--     sync = {
+--       open = true,
+--       close = true,
+--     },
+--   },
+-- }
 
 return M

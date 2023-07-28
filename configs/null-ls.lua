@@ -28,11 +28,16 @@ local sources = {
   -- rust
   b.formatting.rustfmt,
 
+  -- Completion
+  b.completion.luasnip,
+
   -- go
-  b.diagnostics.golangci_lint.with { extra_args = { "--enable-all" } },
-  b.formatting.gofmt,
+  -- b.diagnostics.golangci_lint.with { extra_args = { "--enable-all" } },
+  b.formatting.gofumpt,
+  -- b.formatting.gofmt,
+  b.formatting.tidy,
   b.formatting.goimports,
-  b.formatting.goimports_reviser,
+  -- b.formatting.goimports_reviser,
 
   -- shell
   b.diagnostics.shellcheck.with { diagnostics_format = "#{m} [#{c}]" },

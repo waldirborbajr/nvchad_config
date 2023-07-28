@@ -62,18 +62,31 @@ local plugins = {
   -- }
 
   -- Add completion to DAP buffers
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   opts = overrides.cmp,
-  -- },
   {
     "hrsh7th/nvim-cmp",
-    opts = {
-      enabled = function()
-        return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
-      end,
+    opts = overrides.cmp,
+    dependencies = {
+      -- "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-nvim-lsp",
+      "f3fora/cmp-spell",
+      -- "hrsh7th/cmp-vsnip",
+      "delphinus/cmp-ctags",
+      "hrsh7th/cmp-nvim-lsp-document-symbol",
+      "ray-x/cmp-treesitter",
+      {
+        "hrsh7th/cmp-cmdline",
+        event = "CmdLineEnter",
+      },
     },
   },
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   opts = {
+  --     enabled = function()
+  --       return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
+  --     end,
+  --   },
+  -- },
 
   -- Inlay hints
   {
@@ -216,15 +229,19 @@ local plugins = {
   {
     "ray-x/go.nvim",
     dependencies = { -- optional packages
-      "ray-x/guihua.lua",
+      {
+        "ray-x/guihua.lua",
+        build = "cd lua/fzy && make",
+      },
       "neovim/nvim-lspconfig",
       "nvim-treesitter/nvim-treesitter",
     },
     config = function()
-      require("go").setup()
+      -- require("go").setup()
+      require "custom.configs.go"
     end,
     event = { "CmdlineEnter" },
-    ft = { "go", "gomod" },
+    ft = { "go", "gomod", "gosum", "gowork" },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
 

@@ -1,9 +1,11 @@
-local dap = require("dap")
-local dapui = require("dapui")
+local dap = require "dap"
+local dapui = require "dapui"
+local core = require "custom.configs.core"
 
-dapui.setup()
+-- dapui.setup()
+dapui.setup(core.dapui)
 
-require("nvim-dap-virtual-text")
+require "nvim-dap-virtual-text"
 
 local debug_buffer = 0
 
@@ -31,21 +33,44 @@ local function delete_mappings()
 end
 
 -- Close nvim-tree, open DAP UI and set debugging key mappings when a debugging session is initialized
-dap.listeners.after.event_initialized["dapui_config"] = function()
-  require("nvim-tree.api").tree.close()
-  dapui.open()
-  set_mappings()
-end
+
+--   dapui.open()
+--   set_mappings()
+-- end
 
 -- Delete mappings and close DAP UI when a debugging session is terminated
-dap.listeners.after.event_terminated["dapui_config"] = function()
-  delete_mappings()
-  dapui.close()
-end
+-- dap.listeners.after.event_terminated["dapui_config"] = function()
+--   delete_mappings()
+--   dapui.close()
+-- end
 
 -- IDK when this event is triggered TBH
+-- dap.listeners.after.event_exited["dapui_config"] = function()
+--   dapui.close()
+-- end
+
+dap.listeners.before.event_initialized["dapui_config"] = function()
+  local api = require "nvim-tree.api"
+  local view = require "nvim-tree.view"
+  if view.is_visible() then
+    api.tree.close()
+  end
+
+  for _, winnr in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    local bufnr = vim.api.nvim_win_get_buf(winnr)
+    if vim.api.nvim_get_option_value("ft", { buf = bufnr }) == "dap-repl" then
+      return
+    end
+  end
+  dapui:open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  vim.cmd "stopinsert"
+  dapui:close()
+end
 dap.listeners.after.event_exited["dapui_config"] = function()
-  dapui.close()
+  vim.cmd "stopinsert"
+  dapui:close()
 end
 
 -- Icons for debugging breakpoints and stop points
