@@ -158,6 +158,18 @@ M.custom = {
 -- Debugging key bindings
 M.dap = {
   n = {
+    ["<leader>tt"] = { "<cmd> :GoBreakToggle<CR>", " Toggle breakpoint" },
+    ["<F5>"] = { "<cmd> :DapContinue <CR>", " Continue" },
+    ["<F10>"] = { "<cmd> :DapStepOver <CR>", " Step over" },
+    ["<F11>"] = { "<cmd> :DapStepInto <CR>", " Step into" },
+    ["<F9>"] = { "<cmd> :DapStepOut <CR>", " Step out" },
+
+    ["<leader><leader>p"] = {
+      function()
+        require("debugprint").debugprint()
+      end,
+      " Step out",
+    },
     ["<leader>db"] = {
       function()
         require("dap").continue()
