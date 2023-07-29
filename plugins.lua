@@ -169,34 +169,38 @@ local plugins = {
   -- Debugging adapter protocol
   {
     "mfussenegger/nvim-dap",
-    config = function()
-      require "custom.configs.dap"
-      require("core.utils").load_mappings "dap"
-    end,
-  },
-
-  -- Debugging ui
-  {
-    "rcarriga/nvim-dap-ui",
+    event = "VeryLazy",
     dependencies = {
-      "mfussenegger/nvim-dap",
+      {
+        "rcarriga/nvim-dap-ui",
+        opts = function()
+          return require "custom.configs.dapui"
+        end,
+        config = function(_, opts)
+          require("dapui").setup(opts)
+        end,
+      },
     },
     config = function()
-      require "custom.configs.dap-ui"
+      require "custom.configs.dap"
     end,
   },
 
   -- Debugging completion
+  -- {
+  --   "rcarriga/cmp-dap",
+  --   dependencies = "hrsh7th/nvim-cmp",
+  --   config = function()
+  --     require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+  --       sources = { { name = "dap" } },
+  --     })
+  --   end,
+  -- },
   {
-    "rcarriga/cmp-dap",
-    dependencies = "hrsh7th/nvim-cmp",
-    config = function()
-      require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
-        sources = { { name = "dap" } },
-      })
-    end,
+    "mfussenegger/nvim-jdtls",
+    dependencies = { "nvim-lspconfig" },
+    event = "VeryLazy",
   },
-
   -- Debugging virtual text
   {
     "theHamsta/nvim-dap-virtual-text",
@@ -206,7 +210,7 @@ local plugins = {
     end,
   },
 
-  { "nvim-telescope/telescope-dap.nvim" },
+  -- { "nvim-telescope/telescope-dap.nvim" },
 
   -- GO
   {

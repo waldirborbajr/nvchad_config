@@ -131,77 +131,75 @@ M.mason = {
 }
 
 -- git support in nvimtree
+-- M.nvimtree = {
+--   git = {
+--     enable = true,
+--   },
+--   renderer = {
+--     highlight_git = true,
+--     icons = {
+--       show = {
+--         git = true,
+--       },
+--     },
+--   },
+-- }
+
+-- git support in nvimtree
 M.nvimtree = {
   git = {
     enable = true,
+    show_on_dirs = true,
+    show_on_open_dirs = false,
+  },
+  diagnostics = {
+    enable = true,
+    show_on_dirs = true,
+    show_on_open_dirs = false,
+    severity = {
+      min = vim.diagnostic.severity.ERROR,
+      max = vim.diagnostic.severity.ERROR,
+    },
+    icons = {
+      hint = "",
+      info = "",
+      warning = "",
+      error = "",
+    },
   },
   renderer = {
+    symlink_destination = false,
     highlight_git = true,
     icons = {
       show = {
         git = true,
       },
+      glyphs = {
+        default = "",
+        symlink = "",
+        bookmark = "",
+        folder = {
+          arrow_closed = "",
+          arrow_open = "",
+          default = "",
+          open = "",
+          empty = "",
+          empty_open = "",
+          symlink = "",
+          symlink_open = "",
+        },
+        git = {
+          unstaged = "✗",
+          staged = "✓",
+          unmerged = "",
+          renamed = "➜",
+          untracked = "★",
+          deleted = "",
+          ignored = "◌",
+        },
+      },
     },
   },
 }
-
--- M.nvimtree = {
---   filters = {
---     dotfiles = false,
---     custom = {
---       "**/node_modules",
---       "**/%.git",
---       "**/%.github",
---     },
---   },
---   git = {
---     enable = true,
---     ignore = false,
---   },
---   hijack_unnamed_buffer_when_opening = true,
---   hijack_cursor = true,
---   diagnostics = {
---     enable = false,
---     show_on_dirs = false,
---     debounce_delay = 50,
---     icons = {
---       hint = "",
---       info = "",
---       warning = "",
---       error = "",
---     },
---   },
---   system_open = { cmd = "thunar" },
---   sync_root_with_cwd = true,
---   renderer = {
---     highlight_opened_files = "name",
---     highlight_git = true,
---     group_empty = true,
---     icons = {
---       show = {
---         git = true,
---       },
---       glyphs = {
---         git = {
---           unstaged = "",
---           -- unstaged = "",
---           staged = "",
---           unmerged = "",
---           renamed = "➜",
---           -- untracked = "",
---           untracked = "",
---           deleted = "",
---           ignored = "◌",
---         },
---       },
---     },
---   },
---   tab = {
---     sync = {
---       open = true,
---       close = true,
---     },
---   },
--- }
 
 return M
