@@ -204,10 +204,12 @@ local plugins = {
   -- Debugging virtual text
   {
     "theHamsta/nvim-dap-virtual-text",
+    event = "BufEnter",
     dependencies = "mfussenegger/nvim-dap",
-    config = function()
-      require("nvim-dap-virtual-text").setup()
-    end,
+    opts = require "custom.configs.dap-virtual-text",
+    -- config = function()
+    --   require("nvim-dap-virtual-text").setup()
+    -- end,
   },
 
   -- { "nvim-telescope/telescope-dap.nvim" },
