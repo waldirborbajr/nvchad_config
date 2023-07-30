@@ -1,4 +1,5 @@
 local overrides = require "custom.configs.overrides"
+local load_mappings = require("core.utils").load_mappings
 
 ---@type NvPluginSpec[]
 local plugins = {
