@@ -112,40 +112,24 @@ lspconfig.lua_ls.setup {
   },
 }
 
--- lspconfig.gopls.setup {
---   on_attach = on_attach,
---   capabilities = capabilities,
---   cmd = { "gopls" },
---   filetypes = { "go", "gomod", "gowork", "gotmpl" },
---   root_dir = util.root_pattern("go.work", "go.mod", ".git"),
---   settings = {
---     gopls = {
---       completeUnimported = true,
---       usePlaceholders = true,
---       analyses = {
---         unusedparams = true,
---         fieldalignment = true,
---         nilness = true,
---         -- shadow = true,
---         unusedwrite = true,
---         useany = true,
---       },
---     },
---   },
--- }
+local util = require "lspconfig/util"
 lspconfig.gopls.setup {
   on_attach = on_attach,
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
+  root_dir = util.root_pattern("go.work", "go.mod", ".git"),
   capabilities = capabilities,
   settings = {
     gopls = {
       buildFlags = { "-tags=wireinject" },
+      completeUnimported = true,
       usePlaceholders = true,
       analyses = {
         nilness = true,
+        fieldalignment = true,
         shadow = true,
         unusedparams = true,
         unusewrites = true,
+        useany = true,
       },
       staticcheck = true,
       codelenses = {
