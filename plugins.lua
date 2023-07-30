@@ -295,16 +295,6 @@ local plugins = {
     },
   },
 
-  -- AI code generate
-  {
-    "Exafunction/codeium.vim",
-    event = "BufRead",
-    cmd = "Codeium",
-    init = function()
-      require "custom.configs.codeium"
-      load_mappings("codeium", { expr = true })
-    end,
-  },
 }
 
 return plugins
