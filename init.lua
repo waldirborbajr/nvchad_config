@@ -62,6 +62,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+-- autocmd("BufWritePre", {
+--   pattern = "*",
+--   callback = function()
+--     vim.lsp.buf.formatting_sync()
+--   end,
+-- })
+
 vim.g.dap_virtual_text = true
 vim.opt.conceallevel = 2
 vim.opt.spell = true

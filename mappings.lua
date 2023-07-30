@@ -72,18 +72,18 @@ M.gopher = {
 M.custom = {
   n = {
     ["<leader>v"] = { "<C-v>", "Enter visual block mode" },
-    ["<leader>th"] = {
-      function()
-        require("nvterm.terminal").new "horizontal"
-      end,
-      "New horizontal term",
-    },
-    ["<leader>tv"] = {
-      function()
-        require("nvterm.terminal").new "vertical"
-      end,
-      "New horizontal term",
-    },
+    -- ["<leader>th"] = {
+    --   function()
+    --     require("nvterm.terminal").new "horizontal"
+    --   end,
+    --   "New horizontal term",
+    -- },
+    -- ["<leader>tv"] = {
+    --   function()
+    --     require("nvterm.terminal").new "vertical"
+    --   end,
+    --   "New horizontal term",
+    -- },
     ["<C-z>"] = { "u", "Undo" },
     ["<C-y>"] = { "<C-r>", "Redo" },
     ["<C-d>"] = { "<C-d>zz", "Half page jump down" },
