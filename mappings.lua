@@ -23,14 +23,8 @@ M.bplus = {
 M.dap = {
   plugin = true,
   n = {
-    ["<leader>db"] = {
-      "<cmd> DapToggleBreakpoint <CR>",
-      "Add breakpoint at line",
-    },
-    ["<leader>dr"] = {
-      "<cmd> DapContinue <CR>",
-      "Start or continue the debugger",
-    },
+    ["<leader>db"] = { "<cmd> DapToggleBreakpoint <CR>", "Add breakpoint at line" },
+    ["<leader>dr"] = { "<cmd> DapContinue <CR>", "Start or continue the debugger" },
     ["<leader>du"] = {
       function()
         local widgets = require "dap.ui.widgets"
