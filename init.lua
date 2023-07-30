@@ -39,13 +39,13 @@ vim.api.nvim_exec(
 )
 
 -- Format GO file
--- local fmt_augroup = vim.api.nvim_create_augroup("lsp_fmt", { clear = true })
--- autocmd("BufWritePre", {
---   group = fmt_augroup,
---   callback = function()
---     require("go.format").goimport()
---   end,
--- })
+local fmt_augroup = vim.api.nvim_create_augroup("lsp_fmt", { clear = true })
+autocmd("BufWritePre", {
+  group = fmt_augroup,
+  callback = function()
+    require("go.format").goimport()
+  end,
+})
 
 vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
 
