@@ -40,12 +40,12 @@ M.treesitter = {
     "json",
     "jsonc",
     "yaml",
-    "dart",
+    -- "dart",
   },
   indent = {
     enable = true,
     disable = {
-      "dart",
+      -- "dart",
       "lua",
       --   "python"
     },
@@ -100,7 +100,7 @@ M.mason = {
     "golangci-lint-langserver",
     "goimports",
     "goimports-reviser",
-    -- "gopls",
+    "gopls",
     -- "impl",
     -- "iferr",
     -- "staticcheck",
