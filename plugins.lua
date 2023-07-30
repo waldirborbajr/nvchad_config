@@ -168,18 +168,19 @@ local plugins = {
   },
 
   -- Debugging adapter protocol
+  -- dapui
+  {
+    "rcarriga/nvim-dap-ui",
+    opts = require "custom.configs.dapui",
+  },
+  -- dap
   {
     "mfussenegger/nvim-dap",
     event = "VeryLazy",
     dependencies = {
       {
-        "rcarriga/nvim-dap-ui",
-        opts = function()
-          return require "custom.configs.dapui"
-        end,
-        config = function(_, opts)
-          require("dapui").setup(opts)
-        end,
+        "theHamsta/nvim-dap-virtual-text",
+        config = true,
       },
     },
     config = function()
@@ -187,30 +188,10 @@ local plugins = {
     end,
   },
 
-  -- Debugging completion
-  -- {
-  --   "rcarriga/cmp-dap",
-  --   dependencies = "hrsh7th/nvim-cmp",
-  --   config = function()
-  --     require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
-  --       sources = { { name = "dap" } },
-  --     })
-  --   end,
-  -- },
   {
     "mfussenegger/nvim-jdtls",
     dependencies = { "nvim-lspconfig" },
     event = "VeryLazy",
-  },
-  -- Debugging virtual text
-  {
-    "theHamsta/nvim-dap-virtual-text",
-    event = "BufEnter",
-    dependencies = "mfussenegger/nvim-dap",
-    opts = require "custom.configs.dap-virtual-text",
-    -- config = function()
-    --   require("nvim-dap-virtual-text").setup()
-    -- end,
   },
 
   -- { "nvim-telescope/telescope-dap.nvim" },
@@ -295,6 +276,27 @@ local plugins = {
     },
   },
 
+  -- indentscope
+  -- {
+  --   "echasnovski/mini.indentscope",
+  --   event = { "BufReadPre", "BufNewFile" },
+  --   opts = {
+  --     -- symbol = "▏",
+  --     symbol = "│",
+  --     options = { try_as_border = true },
+  --   },
+  --   init = function()
+  --     vim.api.nvim_create_autocmd("FileType", {
+  --       pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
+  --       callback = function()
+  --         vim.b.miniindentscope_disable = true
+  --       end,
+  --     })
+  --   end,
+  --   config = function(_, opts)
+  --     require("mini.indentscope").setup(opts)
+  --   end,
+  -- },
 }
 
 return plugins

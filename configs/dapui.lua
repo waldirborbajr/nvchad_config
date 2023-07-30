@@ -1,6 +1,7 @@
-local opts = {
-  icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
+local options = {
+  icons = { expanded = "", collapsed = "", current_frame = "" },
   mappings = {
+    -- Use a table to apply multiple mappings
     expand = { "<CR>", "<2-LeftMouse>" },
     open = "o",
     remove = "d",
@@ -8,17 +9,17 @@ local opts = {
     repl = "r",
     toggle = "t",
   },
-  expand_lines = false,
+  expand_lines = vim.fn.has "nvim-0.7" == 1,
   layouts = {
     {
       elements = {
-        { id = "scopes", size = 0.25 },
         "breakpoints",
         "stacks",
+        { id = "scopes", size = 0.25 },
         "watches",
       },
       size = 40, -- 40 columns
-      position = "right",
+      position = "left",
     },
     {
       elements = {
@@ -27,6 +28,20 @@ local opts = {
       },
       size = 0.25, -- 25% of total lines
       position = "bottom",
+    },
+  },
+  controls = {
+    enabled = true,
+    element = "repl",
+    icons = {
+      pause = "",
+      play = "",
+      step_into = "",
+      step_over = "",
+      step_out = "",
+      step_back = "",
+      run_last = "",
+      terminate = "",
     },
   },
   floating = {
@@ -40,7 +55,8 @@ local opts = {
   windows = { indent = 1 },
   render = {
     max_type_length = nil, -- Can be integer or nil.
+    max_value_lines = 100, -- Can be integer or nil.
   },
 }
 
-return opts
+return options
