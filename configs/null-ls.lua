@@ -33,11 +33,15 @@ local sources = {
 
   -- go
   -- b.diagnostics.golangci_lint.with { extra_args = { "--enable-all" } },
+  -- go install mvdan.cc/gofumpt@latest
   b.formatting.gofumpt,
   -- b.formatting.gofmt,
   b.formatting.tidy,
   b.formatting.goimports,
-  -- b.formatting.goimports_reviser,
+  -- go install -v github.com/incu6us/goimports-reviser/v3@latest
+  b.formatting.goimports_reviser,
+  -- go install github.com/segmentio/golines@latest
+  b.formatting.golines,
 
   -- shell
   b.diagnostics.shellcheck.with { diagnostics_format = "#{m} [#{c}]" },
@@ -55,7 +59,23 @@ local sources = {
   b.formatting.yamlfmt,
 }
 
+local autocomandgroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local on_attach = function(client, bufnr)
+  if client.supports_method "textDocument/formatting" then
+    vim.api.nvim_clear_autocmds { group = autocomandgroup, buffer = bufnr }
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = autocomandgroup,
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.format { bufnr = bufnr }
+      end,
+    })
+  end
+end
+
 null_ls.setup {
   debug = true,
   sources = sources,
+
+  on_attach = on_attach,
 }
