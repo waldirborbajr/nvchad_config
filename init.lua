@@ -6,11 +6,8 @@
 --   command = "tabdo wincmd =",
 -- })
 
-local create_cmd = vim.api.nvim_create_user_command
-local autocmd = vim.api.nvim_create_autocmd
-
 -- Open Github repository
-create_cmd("OpenGithubRepo", function(_)
+vim.api.nvim_create_user_command("OpenGithubRepo", function(_)
   local ghpath = vim.api.nvim_eval "shellescape(expand('<cfile>'))"
   local formatpath = ghpath:sub(2, #ghpath - 1)
   local repourl = "https://www.github.com/" .. formatpath
@@ -21,7 +18,7 @@ end, {
 })
 
 -- Disable continuation comment on next line
-autocmd("User", {
+vim.api.nvim_create_autocmd("User", {
   desc = "no auto comment after pressing o",
   pattern = "*",
   command = "setlocal formatoptions-=cro",
@@ -40,15 +37,15 @@ vim.api.nvim_exec(
 
 -- Format GO file
 local fmt_augroup = vim.api.nvim_create_augroup("lsp_fmt", { clear = true })
-autocmd("BufWritePre", {
+vim.api.nvim_create_autocmd("BufWritePre", {
   group = fmt_augroup,
+  pattern = "*.go",
   callback = function()
     require("go.format").goimport()
   end,
 })
 
 vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
-
 vim.api.nvim_create_autocmd("LspAttach", {
   group = "LspAttach_inlayhints",
   callback = function(args)
