@@ -82,6 +82,12 @@ vim.api.nvim_create_autocmd({ "BufLeave" }, {
 --   end,
 -- })
 
+-- remove trailing spaces when save
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  pattern = { "*" },
+  command = [[%s/\s\+$//e]],
+})
+
 vim.g.dap_virtual_text = true
 vim.opt.conceallevel = 2
 vim.opt.spell = true
