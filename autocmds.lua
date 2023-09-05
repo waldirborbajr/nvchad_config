@@ -29,20 +29,22 @@ vim.api.nvim_exec(
 )
 
 -- Format GO file
-local fmt_augroup = vim.api.nvim_create_augroup("lsp_fmt", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = fmt_augroup,
-  pattern = "*.go",
-  callback = function()
-    require("go.format").goimport()
-  end,
-})
+-- local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
 -- vim.api.nvim_create_autocmd("BufWritePre", {
 --   pattern = "*.go",
 --   callback = function()
---     vim.lsp.buf.code_action { context = { only = { "source.organizeImports" } }, apply = true }
+--     -- require('go.format').gofmt()
+--     require("go.format").goimport() -- goimport + gofmt
 --   end,
+--   group = format_sync_grp,
 -- })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*.go",
+  callback = function()
+    vim.lsp.buf.code_action { context = { only = { "source.organizeImports" } }, apply = true }
+  end,
+})
 
 vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
 vim.api.nvim_create_autocmd("LspAttach", {
