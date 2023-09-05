@@ -95,6 +95,24 @@ local plugins = {
     end,
   },
   {
+    "ray-x/go.nvim",
+    dependencies = { -- optional packages
+      {
+        "ray-x/guihua.lua",
+        build = "cd lua/fzy && make",
+      },
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      -- require("go").setup()
+      require "custom.configs.go"
+    end,
+    event = { "CmdlineEnter" },
+    ft = { "go", "gomod", "gosum", "gowork" },
+    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+  },
+  {
     "Exafunction/codeium.vim",
     event = "BufEnter",
     config = function()
@@ -111,6 +129,16 @@ local plugins = {
     config = function()
       require("lsp-inlayhints").setup()
     end,
+  },
+  {
+    "kdheepak/lazygit.nvim",
+    keys = {
+      { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+    },
+    -- optional for floating window border decoration
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
   },
 }
 return plugins
