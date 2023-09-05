@@ -1,11 +1,4 @@
----@type MappingsTable
 local M = {}
-
-M.general = {
-  n = {
-    [";"] = { ":", "enter command mode", opts = { nowait = true } },
-  },
-}
 
 M.bplus = {
   n = {
@@ -20,70 +13,10 @@ M.bplus = {
   },
 }
 
-M.dap = {
-  plugin = true,
-  n = {
-    ["<leader>db"] = { "<cmd> DapToggleBreakpoint <CR>", "Add breakpoint at line" },
-    ["<leader>dr"] = { "<cmd> DapContinue <CR>", "Start or continue the debugger" },
-    ["<leader>du"] = {
-      function()
-        local widgets = require "dap.ui.widgets"
-        local sidebar = widgets.sidebar(widgets.scopes)
-        sidebar.open()
-      end,
-      "Open debugging sidebar",
-    },
-  },
-}
-
-M.dap_go = {
-  plugin = true,
-  n = {
-    ["<leader>dgt"] = {
-      function()
-        require("dap-go").debug_test()
-      end,
-      "Debug go test",
-    },
-    ["<leader>dgl"] = {
-      function()
-        require("dap-go").debug_last()
-      end,
-      "Debug last go test",
-    },
-  },
-}
-
-M.gopher = {
-  plugin = true,
-  n = {
-    ["<leader>gsj"] = {
-      "<cmd> GoTagAdd json <CR>",
-      "Add json struct tags",
-    },
-    ["<leader>gsy"] = {
-      "<cmd> GoTagAdd yaml <CR>",
-      "Add yaml struct tags",
-    },
-  },
-}
-
 -- Custom mappings
 M.custom = {
   n = {
     ["<leader>v"] = { "<C-v>", "Enter visual block mode" },
-    -- ["<leader>th"] = {
-    --   function()
-    --     require("nvterm.terminal").new "horizontal"
-    --   end,
-    --   "New horizontal term",
-    -- },
-    -- ["<leader>tv"] = {
-    --   function()
-    --     require("nvterm.terminal").new "vertical"
-    --   end,
-    --   "New horizontal term",
-    -- },
     ["<C-z>"] = { "u", "Undo" },
     ["<C-y>"] = { "<C-r>", "Redo" },
     ["<C-d>"] = { "<C-d>zz", "Half page jump down" },
@@ -149,93 +82,54 @@ M.custom = {
   },
 }
 
--- Debugging key bindings
 M.dap = {
+  plugin = true,
   n = {
-    ["<leader>tt"] = { "<cmd> :GoBreakToggle<CR>", " Toggle breakpoint" },
-    ["<F5>"] = { "<cmd> :DapContinue <CR>", " Continue" },
-    ["<F10>"] = { "<cmd> :DapStepOver <CR>", " Step over" },
-    ["<F11>"] = { "<cmd> :DapStepInto <CR>", " Step into" },
-    ["<F9>"] = { "<cmd> :DapStepOut <CR>", " Step out" },
-
-    ["<leader><leader>p"] = {
-      function()
-        require("debugprint").debugprint()
-      end,
-      " Step out",
-    },
     ["<leader>db"] = {
-      function()
-        require("dap").continue()
-      end,
-      "Start debugger or continue to next breakpoint",
+      "<cmd> DapToggleBreakpoint <CR>",
+      "Add breakpoint at line"
     },
-    ["<leader>dt"] = {
-      function()
-        require("dap").terminate()
+    ["<leader>dus"] = {
+      function ()
+        local widgets = require('dap.ui.widgets');
+        local sidebar = widgets.sidebar(widgets.scopes);
+        sidebar.open();
       end,
-      "Terminate debugger",
-    },
-    ["<leader>dr"] = {
-      function()
-        require("dap").restart()
-      end,
-      "Restart debugger",
-    },
-    ["<leader>dl"] = {
-      function()
-        require("dap").list_breakpoints()
-      end,
-      "List breakpoints",
-    },
-    ["<leader>dc"] = {
-      function()
-        require("dap").clear_breakpoints()
-      end,
-      "Clear breakpoints",
-    },
-    ["<leader>b"] = {
-      function()
-        require("dap").toggle_breakpoint()
-      end,
-      "Toggle breakpoint",
-    },
-    ["<leader>ds"] = {
-      function()
-        vim.ui.input({ prompt = "Breakpoint condition > " }, function(condition)
-          require("dap").set_breakpoint(condition)
-        end)
-      end,
-      "Set conditional breakpoint",
-    },
-  },
+      "Open debugging sidebar"
+    }
+  }
 }
 
--- Run test method in debugger
-M.dap_python = {
+M.dap_go = {
   plugin = true,
   n = {
-    ["<leader>dpr"] = {
+    ["<leader>dgt"] = {
       function()
-        require("dap-python").test_method()
+        require('dap-go').debug_test()
       end,
+      "Debug go test"
     },
-  },
+    ["<leader>dgl"] = {
+      function()
+        require('dap-go').debug_last()
+      end,
+      "Debug last go test"
+    }
+  }
 }
 
--- Flutter tools, list flutter commands
-M.flutter_tools = {
+M.gopher = {
   plugin = true,
   n = {
-    ["<leader>fc"] = {
-      function()
-        require("telescope").extensions.flutter.commands()
-      end,
-      "Flutter commands",
+    ["<leader>gsj"] = {
+      "<cmd> GoTagAdd json <CR>",
+      "Add json struct tags"
     },
-  },
+    ["<leader>gsy"] = {
+      "<cmd> GoTagAdd yaml <CR>",
+      "Add yaml struct tags"
+    }
+  }
 }
-
--- more keybinds!
 
 return M
