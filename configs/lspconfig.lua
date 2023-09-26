@@ -16,6 +16,13 @@ lspconfig.gopls.setup {
     only_current_line = true,
     other_hints_prefix = "• ",
   },
+  diagnostic = {
+    hdlr = true,
+    underline = true,
+    virtual_text = false,
+    signs = true,
+    update_in_insert = false,
+  },
   trouble = true,
   lsp_keymaps = false,
   icons = { breakpoint = "", currentpos = "" },

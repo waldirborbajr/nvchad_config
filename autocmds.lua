@@ -24,8 +24,7 @@ vim.api.nvim_exec(
       autocmd!
       autocmd BufWinEnter * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zz" | endif
   augroup END
-]],
-  false
+]],false
 )
 
 -- Format GO file

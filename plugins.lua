@@ -1,52 +1,52 @@
 local plugins = {
-  {
-    "rcarriga/nvim-dap-ui",
-    event = "VeryLazy",
-    dependencies = "mfussenegger/nvim-dap",
-    config = function()
-      local dap = require("dap")
-      local dapui = require("dapui")
-      require("dapui").setup()
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close()
-      end
-    end
-  },
-  {
-    "mfussenegger/nvim-dap",
-    config = function()
-      -- require "custom.configs.dap"
-      require("core.utils").load_mappings("dap")
-    end
-  },
-  {
-    "dreamsofcode-io/nvim-dap-go",
-    ft = "go",
-    dependencies = "mfussenegger/nvim-dap",
-    config = function(_, opts)
-      require("dap-go").setup(opts)
-      require("core.utils").load_mappings("dap_go")
-    end
-  },
-  {
-    "mfussenegger/nvim-dap-python",
-    ft = "python",
-    dependencies = {
-      "mfussenegger/nvim-dap",
-      "rcarriga/nvim-dap-ui",
-    },
-    config = function(_, opts)
-      local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
-      require("dap-python").setup(path)
-      require("core.utils").load_mappings("dap_python")
-    end,
-  },
+  -- {
+  --   "rcarriga/nvim-dap-ui",
+  --   event = "VeryLazy",
+  --   dependencies = "mfussenegger/nvim-dap",
+  --   config = function()
+  --     local dap = require("dap")
+  --     local dapui = require("dapui")
+  --     require("dapui").setup()
+  --     dap.listeners.after.event_initialized["dapui_config"] = function()
+  --       dapui.open()
+  --     end
+  --     dap.listeners.before.event_terminated["dapui_config"] = function()
+  --       dapui.close()
+  --     end
+  --     dap.listeners.before.event_exited["dapui_config"] = function()
+  --       dapui.close()
+  --     end
+  --   end
+  -- },
+  -- {
+  --   "mfussenegger/nvim-dap",
+  --   config = function()
+  --     -- require "custom.configs.dap"
+  --     require("core.utils").load_mappings("dap")
+  --   end
+  -- },
+  -- {
+  --   "dreamsofcode-io/nvim-dap-go",
+  --   ft = "go",
+  --   dependencies = "mfussenegger/nvim-dap",
+  --   config = function(_, opts)
+  --     require("dap-go").setup(opts)
+  --     require("core.utils").load_mappings("dap_go")
+  --   end
+  -- },
+  -- {
+  --   "mfussenegger/nvim-dap-python",
+  --   ft = "python",
+  --   dependencies = {
+  --     "mfussenegger/nvim-dap",
+  --     "rcarriga/nvim-dap-ui",
+  --   },
+  --   config = function(_, opts)
+  --     local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
+  --     require("dap-python").setup(path)
+  --     require("core.utils").load_mappings("dap_python")
+  --   end,
+  -- },
   {
     "williamboman/mason.nvim",
     opts = {
@@ -54,11 +54,11 @@ local plugins = {
         "gopls",
         -- "python-lsp-server",
         "lua-language-server",
-        "black",
-        "debugpy",
-        "mypy",
-        "ruff",
-        "pyright",
+        -- "black",
+        -- "debugpy",
+        -- "mypy",
+        -- "ruff",
+        -- "pyright",
       },
     },
   },
@@ -116,7 +116,7 @@ local plugins = {
     event = "BufEnter",
     config = function()
       -- Change '<C-g>' here to any keycode you like.
-      vim.keymap.set("i", "<C-g>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
+      vim.keymap.set("i", "<c-g>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
       vim.keymap.set("i", "<c-;>", function() return vim.fn["codeium#CycleCompletions"](1) end, { expr = true })
       vim.keymap.set("i", "<c-,>", function() return vim.fn["codeium#CycleCompletions"](-1) end, { expr = true })
       vim.keymap.set("i", "<c-x>", function() return vim.fn["codeium#Clear"]() end, { expr = true })
@@ -138,6 +138,14 @@ local plugins = {
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
+  },
+  {
+    "L3MON4D3/LuaSnip",
+    build = "make install_jsregexp",
+    config = function(_, opts)
+      require("plugins.configs.others").luasnip(opts)
+      require "custom.configs.luasnip"
+    end,
   },
 }
 return plugins

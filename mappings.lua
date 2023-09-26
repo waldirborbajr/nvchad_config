@@ -7,6 +7,7 @@ M.bplus = {
     ["WW"] = { "<cmd>write<cr>", desc = "Write" },
     ["!!"] = { "<cmd>qa!<cr>", desc = "Write" },
     ["<leader>ss"] = { ":%s/", desc = "Search and Replace RegExp" },
+    ["<leader>rw"] = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], desc = "Replace current word" },
     ["<Tab>"] = { "<cmd>bnext<cr>", desc = "Next buffer" },
     ["<S-Tab>"] = { "<cmd>bprev<cr>", desc = "Prev buffer" },
     ["gh"] = { "<cmd>OpenGithubRepo<cr>", desc = "Open Github Repo" },
