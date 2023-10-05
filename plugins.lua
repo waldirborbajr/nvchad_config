@@ -1,88 +1,14 @@
 local plugins = {
-  -- {
-  --   "rcarriga/nvim-dap-ui",
-  --   event = "VeryLazy",
-  --   dependencies = "mfussenegger/nvim-dap",
-  --   config = function()
-  --     local dap = require("dap")
-  --     local dapui = require("dapui")
-  --     require("dapui").setup()
-  --     dap.listeners.after.event_initialized["dapui_config"] = function()
-  --       dapui.open()
-  --     end
-  --     dap.listeners.before.event_terminated["dapui_config"] = function()
-  --       dapui.close()
-  --     end
-  --     dap.listeners.before.event_exited["dapui_config"] = function()
-  --       dapui.close()
-  --     end
-  --   end
-  -- },
-  -- {
-  --   "mfussenegger/nvim-dap",
-  --   config = function()
-  --     -- require "custom.configs.dap"
-  --     require("core.utils").load_mappings("dap")
-  --   end
-  -- },
-  -- {
-  --   "dreamsofcode-io/nvim-dap-go",
-  --   ft = "go",
-  --   dependencies = "mfussenegger/nvim-dap",
-  --   config = function(_, opts)
-  --     require("dap-go").setup(opts)
-  --     require("core.utils").load_mappings("dap_go")
-  --   end
-  -- },
-  -- {
-  --   "mfussenegger/nvim-dap-python",
-  --   ft = "python",
-  --   dependencies = {
-  --     "mfussenegger/nvim-dap",
-  --     "rcarriga/nvim-dap-ui",
-  --   },
-  --   config = function(_, opts)
-  --     local path = "~/.local/share/nvim/mason/packages/debugpy/venv/bin/python"
-  --     require("dap-python").setup(path)
-  --     require("core.utils").load_mappings("dap_python")
-  --   end,
-  -- },
-  {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "gopls",
-        -- "python-lsp-server",
-        "lua-language-server",
-        -- "black",
-        -- "debugpy",
-        -- "mypy",
-        -- "ruff",
-        -- "pyright",
-      },
-    },
-  },
-  {
+  { 'williamboman/mason.nvim', opts = require 'custom.configs.mason'},
+    {
     "neovim/nvim-lspconfig",
     config = function()
       require "plugins.configs.lspconfig"
       require "custom.configs.lspconfig"
     end,
   },
-  -- {
-  --   "jose-elias-alvarez/null-ls.nvim",
-  --   ft = "go",
-  --   opts = function()
-  --     return require "custom.configs.null-ls"
-  --   end,
-  -- },
-  {
-    "mhartington/formatter.nvim",
-    event = "VeryLazy",
-    opts = function()
-      return require "custom.configs.formatter"
-    end
-  },
+
+  -- GO
   {
     "olexsmir/gopher.nvim",
     ft = "go",
@@ -111,25 +37,27 @@ local plugins = {
     ft = { "go", "gomod", "gosum", "gowork" },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
+
+ -- AI Autocomplete
   {
     "Exafunction/codeium.vim",
-    event = "BufEnter",
+    event = "VeryLazy",
+  --   event = "BufEnter",
     config = function()
       -- Change '<C-g>' here to any keycode you like.
-      vim.keymap.set("i", "<c-g>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
+      vim.keymap.set("i", "<C-g>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
       vim.keymap.set("i", "<c-;>", function() return vim.fn["codeium#CycleCompletions"](1) end, { expr = true })
       vim.keymap.set("i", "<c-,>", function() return vim.fn["codeium#CycleCompletions"](-1) end, { expr = true })
       vim.keymap.set("i", "<c-x>", function() return vim.fn["codeium#Clear"]() end, { expr = true })
+
+      vim.g.codeium_filetypes = {
+        ["TelescopePrompt"] = false,
+      }
     end,
   },
-  -- Inlay hints
-  {
-    "lvimuser/lsp-inlayhints.nvim",
-    config = function()
-      require("lsp-inlayhints").setup()
-    end,
-  },
-  {
+
+  -- Git
+    {
     "kdheepak/lazygit.nvim",
     keys = {
       { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
@@ -139,13 +67,117 @@ local plugins = {
       "nvim-lua/plenary.nvim",
     },
   },
+
+  -- Format
   {
-    "L3MON4D3/LuaSnip",
-    build = "make install_jsregexp",
-    config = function(_, opts)
-      require("plugins.configs.others").luasnip(opts)
-      require "custom.configs.luasnip"
-    end,
+    "mhartington/formatter.nvim",
+    event = "VeryLazy",
+    opts = function()
+      return require "custom.configs.formatter"
+    end
   },
+
+  -- Alternative to null-ls
+  {
+    "stevearc/conform.nvim",
+    event = "VeryLazy",
+    keys = {
+      -- stylua: ignore
+      { '=', function() require('conform').format { async = true, lsp_fallback = true } end, mode = '', desc = 'Format buffer' },
+    },
+    opts = {
+      formatters_by_ft = {
+        go = { "gofumpt", "goimports", "golines" },
+
+        -- astro = { "prettierd" },
+        -- css = { "prettierd" },
+        -- scss = { "prettierd" },
+        -- javascript = { "prettierd" },
+        -- javascriptreact = { "prettierd" },
+        -- typescript = { "prettierd" },
+        -- typescriptreact = { "prettierd" },
+        -- markdown = { "prettierd" },
+
+        lua = { "stylua" },
+
+        -- sh = { "shfmt" },
+        -- zsh = { "shfmt" },
+      },
+      format_on_save = { lsp_fallback = true, async = false, timeout = 500 },
+    },
+  },
+
+  -- treesitter
+    {
+        'nvim-treesitter/nvim-treesitter',
+        opts = require 'custom.configs.treesitter',
+        init = function()
+            require('nvim-treesitter.install').prefer_git = true
+        end,
+    },
+
+  -- Obsidian
+    {
+        'epwalsh/obsidian.nvim',
+        dependencies = 'nvim-lua/plenary.nvim',
+        config = function()
+            require 'custom.configs.obsidian'
+        end,
+    },
+
+  -- Trouble
+  {
+    "folke/trouble.nvim",
+
+    event = "BufEnter",
+
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+
+    config = require "custom.configs.trouble"
+  },
+
+  --DAP
+{
+    "mfussenegger/nvim-dap",
+
+    event = "BufEnter",
+
+    config = function()
+      require "custom.configs.dap"
+    end
+  },
+
+  {
+    "rcarriga/nvim-dap-ui",
+
+    event = "BufEnter",
+
+    dependencies = {
+      "mfussenegger/nvim-dap"
+    },
+
+    config = function()
+      require "dapui".setup(
+        require "custom.configs.dapui"
+      )
+    end
+  },
+
+  {
+    "theHamsta/nvim-dap-virtual-text",
+
+    event = "BufEnter",
+
+    dependencies = {
+      "nvim-dap"
+    },
+
+    config = function()
+      require "nvim-dap-virtual-text".setup(
+        require "custom.configs.dap-virtual-text"
+      )
+    end
+  },
+
 }
 return plugins
