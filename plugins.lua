@@ -1,5 +1,8 @@
 local plugins = {
-  { "williamboman/mason.nvim", opts = require "custom.configs.mason" },
+  {
+    "williamboman/mason.nvim",
+    opts = require "custom.configs.mason",
+  },
 
   {
     "neovim/nvim-lspconfig",
@@ -149,20 +152,15 @@ local plugins = {
   -- Trouble
   {
     "folke/trouble.nvim",
-
     event = "BufEnter",
-
     dependencies = { "nvim-tree/nvim-web-devicons" },
-
     config = require "custom.configs.trouble",
   },
 
   --DAP
   {
     "mfussenegger/nvim-dap",
-
     event = "BufEnter",
-
     config = function()
       require "custom.configs.dap"
     end,
@@ -170,13 +168,10 @@ local plugins = {
 
   {
     "rcarriga/nvim-dap-ui",
-
     event = "BufEnter",
-
     dependencies = {
       "mfussenegger/nvim-dap",
     },
-
     config = function()
       require("dapui").setup(require "custom.configs.dapui")
     end,
@@ -184,15 +179,22 @@ local plugins = {
 
   {
     "theHamsta/nvim-dap-virtual-text",
-
     event = "BufEnter",
-
     dependencies = {
       "nvim-dap",
     },
-
     config = function()
       require("nvim-dap-virtual-text").setup(require "custom.configs.dap-virtual-text")
+    end,
+  },
+
+  {
+    "dreamsofcode-io/nvim-dap-go",
+    ft = "go",
+    dependencies = "mfussenegger/nvim-dap",
+    config = function(_, opts)
+      require("dap-go").setup(opts)
+      require("core.utils").load_mappings "dap_go"
     end,
   },
 
@@ -205,8 +207,50 @@ local plugins = {
       "nvim-tree/nvim-web-devicons",
     },
     config = function()
-      require("nvim-tree").setup {}
+      require("nvim-tree").setup {
+        git = {
+          enable = false,
+        },
+
+        renderer = {
+          highlight_git = true,
+          icons = {
+            show = {
+              git = true,
+            },
+          },
+        },
+      }
     end,
   },
+
+  -- DAP Alternative
+  -- nvim dap ui
+  -- {
+  --   "rcarriga/nvim-dap-ui",
+  --   ft = "VeryLazy",
+  --   dependencies = "mfussenegger/nvim-dap",
+  --   config = function()
+  --     local dap = require "dap"
+  --     local dapui = require "dapui"
+  --     dapui.setup()
+  --     dap.listeners.after.event_initialized["dapui_config"] = function()
+  --       dapui.open()
+  --     end
+  --     dap.listeners.before.event_terminated["dapui_config"] = function()
+  --       dapui.close()
+  --     end
+  --     dap.listeners.before.event_exited["dapui_config"] = function()
+  --       dapui.close()
+  --     end
+  --   end,
+  -- },
+  -- -- nvim-dap
+  -- {
+  --   "mfussenegger/nvim-dap",
+  --   init = function()
+  --     require("core.utils").load_mappings "dap"
+  --   end,
+  -- },
 }
 return plugins

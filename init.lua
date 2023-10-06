@@ -22,3 +22,6 @@ vim.opt.undodir = os.getenv "HOME" .. "/.vim/undodir"
 vim.opt.undofile = true
 
 vim.opt.termguicolors = true
+
+vim.opt.encoding = "utf-8"
+vim.opt.fileencoding = "utf-8"

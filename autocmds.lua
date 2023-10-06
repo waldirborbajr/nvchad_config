@@ -69,12 +69,6 @@ vim.api.nvim_create_autocmd({ "BufLeave" }, {
     end
   end,
 })
--- autocmd("BufWritePre", {
---   pattern = "*",
---   callback = function()
---     vim.lsp.buf.formatting_sync()
---   end,
--- })
 
 -- remove trailing spaces when save
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
