@@ -1,6 +1,7 @@
 local plugins = {
-  { 'williamboman/mason.nvim', opts = require 'custom.configs.mason'},
-    {
+  { "williamboman/mason.nvim", opts = require "custom.configs.mason" },
+
+  {
     "neovim/nvim-lspconfig",
     config = function()
       require "plugins.configs.lspconfig"
@@ -14,7 +15,7 @@ local plugins = {
     ft = "go",
     config = function(_, opts)
       require("gopher").setup(opts)
-      require("core.utils").load_mappings("gopher")
+      require("core.utils").load_mappings "gopher"
     end,
     build = function()
       vim.cmd [[silent! GoInstallDeps]]
@@ -38,17 +39,25 @@ local plugins = {
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
 
- -- AI Autocomplete
+  -- AI Autocomplete
   {
     "Exafunction/codeium.vim",
     event = "VeryLazy",
-  --   event = "BufEnter",
+    --   event = "BufEnter",
     config = function()
       -- Change '<C-g>' here to any keycode you like.
-      vim.keymap.set("i", "<C-g>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
-      vim.keymap.set("i", "<c-;>", function() return vim.fn["codeium#CycleCompletions"](1) end, { expr = true })
-      vim.keymap.set("i", "<c-,>", function() return vim.fn["codeium#CycleCompletions"](-1) end, { expr = true })
-      vim.keymap.set("i", "<c-x>", function() return vim.fn["codeium#Clear"]() end, { expr = true })
+      vim.keymap.set("i", "<C-g>", function()
+        return vim.fn["codeium#Accept"]()
+      end, { expr = true })
+      vim.keymap.set("i", "<c-;>", function()
+        return vim.fn["codeium#CycleCompletions"](1)
+      end, { expr = true })
+      vim.keymap.set("i", "<c-,>", function()
+        return vim.fn["codeium#CycleCompletions"](-1)
+      end, { expr = true })
+      vim.keymap.set("i", "<c-x>", function()
+        return vim.fn["codeium#Clear"]()
+      end, { expr = true })
 
       vim.g.codeium_filetypes = {
         ["TelescopePrompt"] = false,
@@ -57,7 +66,7 @@ local plugins = {
   },
 
   -- Git
-    {
+  {
     "kdheepak/lazygit.nvim",
     keys = {
       { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
@@ -74,7 +83,7 @@ local plugins = {
     event = "VeryLazy",
     opts = function()
       return require "custom.configs.formatter"
-    end
+    end,
   },
 
   -- Alternative to null-ls
@@ -108,22 +117,22 @@ local plugins = {
   },
 
   -- treesitter
-    {
-        'nvim-treesitter/nvim-treesitter',
-        opts = require 'custom.configs.treesitter',
-        init = function()
-            require('nvim-treesitter.install').prefer_git = true
-        end,
-    },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = require "custom.configs.treesitter",
+    init = function()
+      require("nvim-treesitter.install").prefer_git = true
+    end,
+  },
 
   -- Obsidian
-    {
-        'epwalsh/obsidian.nvim',
-        dependencies = 'nvim-lua/plenary.nvim',
-        config = function()
-            require 'custom.configs.obsidian'
-        end,
-    },
+  {
+    "epwalsh/obsidian.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
+    config = function()
+      require "custom.configs.obsidian"
+    end,
+  },
 
   -- Trouble
   {
@@ -133,18 +142,18 @@ local plugins = {
 
     dependencies = { "nvim-tree/nvim-web-devicons" },
 
-    config = require "custom.configs.trouble"
+    config = require "custom.configs.trouble",
   },
 
   --DAP
-{
+  {
     "mfussenegger/nvim-dap",
 
     event = "BufEnter",
 
     config = function()
       require "custom.configs.dap"
-    end
+    end,
   },
 
   {
@@ -153,14 +162,12 @@ local plugins = {
     event = "BufEnter",
 
     dependencies = {
-      "mfussenegger/nvim-dap"
+      "mfussenegger/nvim-dap",
     },
 
     config = function()
-      require "dapui".setup(
-        require "custom.configs.dapui"
-      )
-    end
+      require("dapui").setup(require "custom.configs.dapui")
+    end,
   },
 
   {
@@ -169,15 +176,12 @@ local plugins = {
     event = "BufEnter",
 
     dependencies = {
-      "nvim-dap"
+      "nvim-dap",
     },
 
     config = function()
-      require "nvim-dap-virtual-text".setup(
-        require "custom.configs.dap-virtual-text"
-      )
-    end
+      require("nvim-dap-virtual-text").setup(require "custom.configs.dap-virtual-text")
+    end,
   },
-
 }
 return plugins

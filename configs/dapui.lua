@@ -1,4 +1,4 @@
-local dap, dapui = require("dap"), require("dapui")
+local dap, dapui = require "dap", require "dapui"
 
 -- Listeners
 
@@ -29,62 +29,73 @@ local config = {
       step_into = "",
       step_out = "",
       step_over = "",
-      terminate = ""
-    }
+      terminate = "",
+    },
   },
   element_mappings = {},
   expand_lines = true,
   floating = {
     border = "single",
     mappings = {
-      close = { "q", "<Esc>" }
-    }
+      close = { "q", "<Esc>" },
+    },
   },
   force_buffers = true,
   icons = {
     collapsed = "",
     current_frame = "",
-    expanded = ""
+    expanded = "",
   },
-  layouts = { {
-      elements = { {
+  layouts = {
+    {
+      elements = {
+        {
           id = "scopes",
-          size = 0.25
-        }, {
+          size = 0.25,
+        },
+        {
           id = "breakpoints",
-          size = 0.25
-        }, {
+          size = 0.25,
+        },
+        {
           id = "stacks",
-          size = 0.25
-        }, {
+          size = 0.25,
+        },
+        {
           id = "watches",
-          size = 0.25
-        } },
+          size = 0.25,
+        },
+      },
       position = "left",
-      size = 40
-    }, {
-      elements = { {
+      size = 40,
+    },
+    {
+      elements = {
+        {
           id = "repl",
-          size = 0.5
-        }, {
+          size = 0.5,
+        },
+        {
           id = "console",
-          size = 0.5
-        } },
+          size = 0.5,
+        },
+      },
       position = "bottom",
-      size = 10
-    } },
+      size = 10,
+    },
+  },
   mappings = {
     edit = "e",
     expand = { "<CR>", "<2-LeftMouse>" },
     open = "o",
     remove = "d",
     repl = "r",
-    toggle = "t"
+    toggle = "t",
   },
   render = {
     indent = 1,
-    max_value_lines = 100
-  }
+    max_value_lines = 100,
+  },
 }
 
 return config

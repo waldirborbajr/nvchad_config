@@ -7,13 +7,13 @@ local M = {
     --   require("formatter.filetypes.typescript").prettier
     -- },
     ["*"] = {
-      require("formatter.filetypes.any").remove_trailing_whitespace
-    }
-  }
+      require("formatter.filetypes.any").remove_trailing_whitespace,
+    },
+  },
 }
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  command = "FormatWriteLock"
+  command = "FormatWriteLock",
 })
 
 return M

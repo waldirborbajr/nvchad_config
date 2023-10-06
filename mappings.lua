@@ -24,10 +24,16 @@ M.dap = {
     ["<F11>"] = { "<cmd> lua require'dap'.step_into() <CR>", "Debug controls | Step into" },
     ["<F12>"] = { "<cmd> lua require'dap'.step_out() <CR>", "Debug controls | Step out" },
     ["<leader>bp"] = { "<cmd> lua require'dap'.toggle_breakpoint() <CR>", "Toggle line breakpoint" },
-    ["<leader>BP"] = { "<cmd> lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: ')) <CR>", "Set line conditional breakpoint" },
-    ["<leader>lp"] = { "<cmd> lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) <CR>", "Set line conditional breakpoint for logging" },
+    ["<leader>BP"] = {
+      "<cmd> lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: ')) <CR>",
+      "Set line conditional breakpoint",
+    },
+    ["<leader>lp"] = {
+      "<cmd> lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) <CR>",
+      "Set line conditional breakpoint for logging",
+    },
     ["<leader>dr"] = { "<cmd> lua require'dap'.repl.open() <CR>", "Open REPL" },
-  }
+  },
 }
 
 return M

@@ -1,4 +1,3 @@
-
 -- Open Github repository
 vim.api.nvim_create_user_command("OpenGithubRepo", function(_)
   local ghpath = vim.api.nvim_eval "shellescape(expand('<cfile>'))"
@@ -24,7 +23,8 @@ vim.api.nvim_exec(
       autocmd!
       autocmd BufWinEnter * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zz" | endif
   augroup END
-]],false
+]],
+  false
 )
 
 -- Format GO file
