@@ -68,9 +68,24 @@ local plugins = {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      -- "leoluz/nvim-dap-go",
     },
-    config = function(_, opts)
-      require("gopher").setup(opts)
+    -- config = function(_, opts)
+    --   require("gopher").setup(opts)
+    -- end,
+    config = function()
+      local gopher = require "gopher"
+      gopher.setup {
+        commands = {
+          go = "go",
+          gomodifytags = "gomodifytags",
+          gotests = "gotests",
+          impl = "impl",
+          iferr = "iferr",
+        },
+        goimport = "gopls",
+        gofmt = "gopls",
+      }
     end,
     build = function()
       vim.cmd [[silent! GoInstallDeps]]
