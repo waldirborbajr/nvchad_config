@@ -1,28 +1,73 @@
+local overrides = require "custom.configs.overrides"
+
+---@type NvPluginSpec[]
 local plugins = {
-  {
-    "williamboman/mason.nvim",
-    opts = require "custom.configs.mason",
-  },
+
+  -- Override plugin definition options
 
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      -- format & linting
+      {
+        "jose-elias-alvarez/null-ls.nvim",
+        config = function()
+          require "custom.configs.null-ls"
+        end,
+      },
+    },
     config = function()
       require "plugins.configs.lspconfig"
       require "custom.configs.lspconfig"
+    end, -- Override to setup mason-lspconfig
+  },
+
+  -- override plugin configs
+  {
+    "williamboman/mason.nvim",
+    opts = overrides.mason,
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = overrides.treesitter,
+  },
+
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = overrides.nvimtree,
+  },
+
+  -- Install a plugin
+  {
+    "max397574/better-escape.nvim",
+    event = "InsertEnter",
+    config = function()
+      require("better_escape").setup()
     end,
   },
+
+  -- To make a plugin not be loaded
+  -- {
+  --   "NvChad/nvim-colorizer.lua",
+  --   enabled = false
+  -- },
+
+  -- All NvChad plugins are lazy-loaded by default
+  -- For a plugin to be loaded, you will need to set either `ft`, `cmd`, `keys`, `event`, or set `lazy = false`
+  -- If you want a plugin to load on startup, add `lazy = false` to a plugin spec, for example
+  -- {
+  --   "mg979/vim-visual-multi",
+  --   lazy = false,
+  -- }
 
   -- GO
   {
     "olexsmir/gopher.nvim",
-    ft = "go",
-    config = function(_, opts)
-      require("gopher").setup(opts)
-      require("core.utils").load_mappings "gopher"
-    end,
-    build = function()
-      vim.cmd [[silent! GoInstallDeps]]
-    end,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
   },
   {
     "ray-x/go.nvim",
@@ -80,15 +125,6 @@ local plugins = {
     },
   },
 
-  -- Format
-  {
-    "mhartington/formatter.nvim",
-    event = "VeryLazy",
-    opts = function()
-      return require "custom.configs.formatter"
-    end,
-  },
-
   -- Alternative to null-ls
   {
     "stevearc/conform.nvim",
@@ -119,138 +155,14 @@ local plugins = {
     },
   },
 
-  -- treesitter
+  -- Format
   {
-    "nvim-treesitter/nvim-treesitter",
-    opts = require "custom.configs.treesitter",
-    init = function()
-      require("nvim-treesitter.install").prefer_git = true
+    "mhartington/formatter.nvim",
+    event = "VeryLazy",
+    opts = function()
+      return require "custom.configs.formatter"
     end,
   },
-
-  -- Obsidian
-  {
-    "epwalsh/obsidian.nvim",
-    lazy = true,
-    event = {
-      -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-      -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
-      "BufReadPre path/to/my-vault/**.md",
-      "BufNewFile path/to/my-vault/**.md",
-    },
-    dependencies = "nvim-lua/plenary.nvim",
-    opts = {
-      dir = "~/wks/Dropbox/2ndBrain/", -- no need to call 'vim.fn.expand' here
-
-      -- see below for full list of options 👇
-    },
-    -- config = function()
-    --   require "custom.configs.obsidian"
-    -- end,
-  },
-
-  -- Trouble
-  {
-    "folke/trouble.nvim",
-    event = "BufEnter",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = require "custom.configs.trouble",
-  },
-
-  --DAP
-  {
-    "mfussenegger/nvim-dap",
-    event = "BufEnter",
-    config = function()
-      require "custom.configs.dap"
-    end,
-  },
-
-  {
-    "rcarriga/nvim-dap-ui",
-    event = "BufEnter",
-    dependencies = {
-      "mfussenegger/nvim-dap",
-    },
-    config = function()
-      require("dapui").setup(require "custom.configs.dapui")
-    end,
-  },
-
-  {
-    "theHamsta/nvim-dap-virtual-text",
-    event = "BufEnter",
-    dependencies = {
-      "nvim-dap",
-    },
-    config = function()
-      require("nvim-dap-virtual-text").setup(require "custom.configs.dap-virtual-text")
-    end,
-  },
-
-  {
-    "dreamsofcode-io/nvim-dap-go",
-    ft = "go",
-    dependencies = "mfussenegger/nvim-dap",
-    config = function(_, opts)
-      require("dap-go").setup(opts)
-      require("core.utils").load_mappings "dap_go"
-    end,
-  },
-
-  -- NvimTree
-  {
-    "nvim-tree/nvim-tree.lua",
-    version = "*",
-    lazy = false,
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      require("nvim-tree").setup {
-        git = {
-          enable = false,
-        },
-
-        renderer = {
-          highlight_git = true,
-          icons = {
-            show = {
-              git = true,
-            },
-          },
-        },
-      }
-    end,
-  },
-
-  -- DAP Alternative
-  -- nvim dap ui
-  -- {
-  --   "rcarriga/nvim-dap-ui",
-  --   ft = "VeryLazy",
-  --   dependencies = "mfussenegger/nvim-dap",
-  --   config = function()
-  --     local dap = require "dap"
-  --     local dapui = require "dapui"
-  --     dapui.setup()
-  --     dap.listeners.after.event_initialized["dapui_config"] = function()
-  --       dapui.open()
-  --     end
-  --     dap.listeners.before.event_terminated["dapui_config"] = function()
-  --       dapui.close()
-  --     end
-  --     dap.listeners.before.event_exited["dapui_config"] = function()
-  --       dapui.close()
-  --     end
-  --   end,
-  -- },
-  -- -- nvim-dap
-  -- {
-  --   "mfussenegger/nvim-dap",
-  --   init = function()
-  --     require("core.utils").load_mappings "dap"
-  --   end,
-  -- },
 }
+
 return plugins
