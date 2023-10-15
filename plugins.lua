@@ -151,30 +151,31 @@ local plugins = {
   {
     "stevearc/conform.nvim",
     event = "VeryLazy",
+    opts = overrides.formatters,
     keys = {
       -- stylua: ignore
       { '=', function() require('conform').format { async = true, lsp_fallback = true } end, mode = '', desc = 'Format buffer' },
     },
-    opts = {
-      formatters_by_ft = {
-        go = { "gofumpt", "goimports", "golines" },
-
-        -- astro = { "prettierd" },
-        -- css = { "prettierd" },
-        -- scss = { "prettierd" },
-        -- javascript = { "prettierd" },
-        -- javascriptreact = { "prettierd" },
-        -- typescript = { "prettierd" },
-        -- typescriptreact = { "prettierd" },
-        -- markdown = { "prettierd" },
-
-        lua = { "stylua" },
-
-        -- sh = { "shfmt" },
-        -- zsh = { "shfmt" },
-      },
-      format_on_save = { lsp_fallback = true, async = false, timeout = 500 },
-    },
+    -- opts = {
+    --   formatters_by_ft = {
+    --     go = { "gofumpt", "goimports", "golines" },
+    --
+    --     -- astro = { "prettierd" },
+    --     -- css = { "prettierd" },
+    --     -- scss = { "prettierd" },
+    --     -- javascript = { "prettierd" },
+    --     -- javascriptreact = { "prettierd" },
+    --     -- typescript = { "prettierd" },
+    --     -- typescriptreact = { "prettierd" },
+    --     -- markdown = { "prettierd" },
+    --
+    --     lua = { "stylua" },
+    --
+    --     -- sh = { "shfmt" },
+    --     -- zsh = { "shfmt" },
+    --   },
+    --   format_on_save = { lsp_fallback = true, async = false, timeout = 500 },
+    -- },
   },
 
   -- Format
