@@ -7,15 +7,15 @@ local plugins = {
 
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      -- format & linting
-      {
-        "jose-elias-alvarez/null-ls.nvim",
-        config = function()
-          require "custom.configs.null-ls"
-        end,
-      },
-    },
+    -- dependencies = {
+    --   -- format & linting
+    --   {
+    --     "jose-elias-alvarez/null-ls.nvim",
+    --     config = function()
+    --       require "custom.configs.null-ls"
+    --     end,
+    --   },
+    -- },
     config = function()
       require "plugins.configs.lspconfig"
       require "custom.configs.lspconfig"
@@ -185,6 +185,45 @@ local plugins = {
     opts = function()
       return require "custom.configs.formatter"
     end,
+  },
+
+  -- Debugging
+  {
+    "rcarriga/nvim-dap-ui",
+    -- init = function()
+    --   require("core.utils").load_mappings "Dap"
+    -- end,
+    dependencies = {
+      {
+        "mfussenegger/nvim-dap",
+        config = function()
+          -- NOTE: Check out this for guide
+          -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
+          local dap = require "dap"
+          vim.fn.sign_define(
+            "DapBreakpoint",
+            { text = "🛑", texthl = "DiagnosticSignError", linehl = "", numhl = "" }
+          )
+
+          local dapui = require "dapui"
+          dap.listeners.after.event_initialized["dapui_config"] = function()
+            dapui.open()
+          end
+
+          -- dap.listeners.before.event_terminated["dapui_config"] = function()
+          --   dapui.close()
+          -- end
+
+          -- dap.listeners.before.event_exited["dapui_config"] = function()
+          --   dapui.close()
+          -- end
+
+          -- NOTE: Make sure to install the needed files/exectubles through mason
+          require "custom.configs.dap.go-debug-adapter"
+        end,
+      },
+    },
+    opts = overrides.dap_ui,
   },
 }
 

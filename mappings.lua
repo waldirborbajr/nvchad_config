@@ -18,12 +18,29 @@ M.bplus = {
   },
 }
 
+M.dap = {
+  n = {
+    ["<leader>dc"] = { ":lua require'dap'.continue()<cr>", "Continue", opts = { silent = true } },
+    ["<leader>do"] = { ":lua require'dap'.step_over()<cr>", "Step Over", opts = { silent = true } },
+    ["<leader>di"] = { ":lua require'dap'.step_into()<cr>", "Step Into", opts = { silent = true } },
+    ["<leader>du"] = { ":lua require'dap'.step_out()<cr>", "Step Out", opts = { silent = true } },
+    ["<leader>db"] = { ":lua require'dap'.toggle_breakpoint()<cr>", "Breakpoint", opts = { silent = true } },
+    ["<leader>dB"] = {
+      ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>",
+      "Breakpoint Condition",
+      opts = { silent = true },
+    },
+    ["<leader>dd"] = { ":lua require'dapui'.toggle()<cr>", "Dap UI", opts = { silent = true } },
+    ["<leader>dl"] = { ":lua require'dap'.run_last()<cr>", "Run Last", opts = { silent = true } },
+  },
+}
+
 M.general = {
   n = {
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
   },
   v = {
-    [">"] = { ">gv", "indent"},
+    [">"] = { ">gv", "indent" },
   },
 }
 
