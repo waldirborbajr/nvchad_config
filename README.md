@@ -2,17 +2,17 @@
 <p align="center">Custom config for <a href="https://github.com/NvChad/NvChad">NvChad</a><p>
 
 <div align="center"><p>
-    <a href="https://github.com/waldirborbajr/dotfiles/pulse">
-      <img alt="Last commit" src="https://img.shields.io/github/last-commit/waldirborbajr/dotfiles?style=for-the-badge&logo=starship&color=8bd5ca&logoColor=D9E0EE&labelColor=302D41"/>
+    <a href="https://github.com/waldirborbajr/nvchad_config/pulse">
+      <img alt="Last commit" src="https://img.shields.io/github/last-commit/waldirborbajr/nvchad_config?style=for-the-badge&logo=starship&color=8bd5ca&logoColor=D9E0EE&labelColor=302D41"/>
     </a>
-    <a href="https://github.com/waldirborbajr/dotfiles/stargazers">
-      <img alt="Stars" src="https://img.shields.io/github/stars/waldirborbajr/dotfiles?style=for-the-badge&logo=starship&color=c69ff5&logoColor=D9E0EE&labelColor=302D41" />
+    <a href="https://github.com/waldirborbajr/nvchad_config/stargazers">
+      <img alt="Stars" src="https://img.shields.io/github/stars/waldirborbajr/nvchad_config?style=for-the-badge&logo=starship&color=c69ff5&logoColor=D9E0EE&labelColor=302D41" />
     </a>
-    <a href="https://github.com/waldirborbajr/dotfiles/issues">
-      <img alt="Issues" src="https://img.shields.io/github/issues/waldirborbajr/dotfiles?style=for-the-badge&logo=bilibili&color=F5E0DC&logoColor=D9E0EE&labelColor=302D41" />
+    <a href="https://github.com/waldirborbajr/nvchad_config/issues">
+      <img alt="Issues" src="https://img.shields.io/github/issues/waldirborbajr/nvchad_config?style=for-the-badge&logo=bilibili&color=F5E0DC&logoColor=D9E0EE&labelColor=302D41" />
     </a>
-    <a href="https://github.com/BrunoKrugek/dotfiles">
-      <img alt="Repo Size" src="https://img.shields.io/github/repo-size/waldirborbajr/dotfiles?color=%23DDB6F2&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=302D41" />
+    <a href="https://github.com/BrunoKrugek/nvchad_config">
+      <img alt="Repo Size" src="https://img.shields.io/github/repo-size/waldirborbajr/nvchad_config?color=%23DDB6F2&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=302D41" />
     </a>
 </div>
 
