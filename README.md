@@ -1,7 +1,9 @@
 <h1 align="center">Nvim(Chad) configuration</h1>
 
 <div align="center">
+
 [![](https://img.shields.io/badge/Neovim-0.9+-blueviolet.svg?style=for-the-badge&color=000F10&logo=Neovim&logoColor=green&labelColor=302D41)](https://github.com/neovim/neovim)
+
 </div>
 
 <p align="center">Custom config for <a href="https://github.com/NvChad/NvChad">NvChad</a><p>
