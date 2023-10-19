@@ -27,7 +27,6 @@ M.mason = {
     -- lua stuff
     "lua-language-server",
     "stylua",
-
     "gopls",
 
     -- web dev stuff
@@ -94,6 +93,7 @@ M.dap_ui = {
       position = "bottom",
     },
   },
+
 }
 
 return M

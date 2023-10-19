@@ -1,5 +1,3 @@
-require "custom.autocmds"
-
 ---@type MappingsTable
 local M = {}
 
