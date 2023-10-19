@@ -125,7 +125,8 @@ local plugins = {
   -- AI Autocomplete
   {
     "Exafunction/codeium.vim",
-    event = "VeryLazy",
+    event = "BufEnter",
+    -- event = "VeryLazy",
     --   event = "BufEnter",
     config = function()
       -- Change '<C-g>' here to any keycode you like.
