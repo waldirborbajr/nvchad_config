@@ -160,6 +160,16 @@ local plugins = {
     },
   },
 
+  {
+    "folke/trouble.nvim",
+    cmd = { "Trouble", "TroubleToggle", "TodoTrouble" },
+    opts = {},
+    keys = {
+      { "<leader>t", "<CMD>TroubleToggle<CR>", "Toggle diagnostics" },
+      { "<leader>td", "<CMD>TodoTrouble keywords=TODO,FIX,FIXME,BUG,TEST,NOTE<CR>", "Todo/Fix/Fixme" },
+    },
+  },
+
   -- Alternative to null-ls
   {
     "stevearc/conform.nvim",
