@@ -4,6 +4,9 @@ local M = {}
 M.bplus = {
   n = {
     -- Custom map
+    ["-"] = { ":split<cr>", "split" },
+    ["|"] = { ":vsplit<cr>", "split vertical" },
+    ["<C-a>"] = { "gg<S-v>G", "select all" },
     ["QQ"] = { "<cmd>quit<cr>", desc = "Quit" },
     ["WW"] = { "<cmd>write<cr>", desc = "Write" },
     ["!!"] = { "<cmd>qa!<cr>", desc = "Write" },
@@ -13,6 +16,32 @@ M.bplus = {
     ["<S-Tab>"] = { "<cmd>bprev<cr>", desc = "Prev buffer" },
     ["gh"] = { "<cmd>OpenGithubRepo<cr>", desc = "Open Github Repo" },
     ["<leader>ip"] = { "<cmd> Inspect<cr>", "HL Group Under Cursor" },
+  },
+  v = {
+    --copy vscode
+    --move selected
+    ["<M-Up>"] = { ":m '<-2<cr>gv-gv", "move selected up" },
+    ["<M-Down>"] = { ":m '>+1<cr>gv-gv", "move selected down" },
+    --copy selected+move
+    ["<M-S-Up>"] = { "y`]p`]gv-gv", "copy selected up" },
+    ["<M-S-Down>"] = { "yP`[gv-gv", "copy selected down" },
+  },
+  i = {
+    --vscode copy
+    --move line
+    ["<M-Up>"] = { "<esc>:m .-2<cr>==", "move line up" },
+    ["<M-Down>"] = { "<esc>:m .+1<cr>==", "move line down" },
+    --copy line+move
+    ["<M-S-Up>"] = { "<esc>yyP<end>", "copy line up " },
+    ["<M-S-Down>"] = { "<esc>yyp<end>", "copy line down" },
+    --convinient
+    ["<C-x>"] = { "<C-o>dd", "cut line" },
+    ["<C-a>"] = { "<esc>gg<S-v>G", "select all" },
+    ["<C-v>"] = { "<C-o>v<S-Right>", "go to visual" },
+    ["<C-S-v>"] = { "<C-o>p", "paste" },
+    ["<C-i>"] = { "<C-o>:Telescope emoji<cr>", "get emoji" },
+    ["<S-Right>"] = { "<end>", "end  of line" },
+    ["<S-Left>"] = { "<home>", "start  of line" },
   },
 }
 

@@ -67,7 +67,7 @@ M.formatters = {
   },
   formatters_by_ft = {
     lua = { "stylua" },
-    go = { "gofumpt" },
+    go = { "gofumpt", "goimports", "golines" },
   },
 }
 
@@ -93,7 +93,6 @@ M.dap_ui = {
       position = "bottom",
     },
   },
-
 }
 
 return M
