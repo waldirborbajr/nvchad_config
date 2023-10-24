@@ -180,26 +180,6 @@ local plugins = {
       -- stylua: ignore
       { '=', function() require('conform').format { async = true, lsp_fallback = true } end, mode = '', desc = 'Format buffer' },
     },
-    -- opts = {
-    --   formatters_by_ft = {
-    --     go = { "gofumpt", "goimports", "golines" },
-    --
-    --     -- astro = { "prettierd" },
-    --     -- css = { "prettierd" },
-    --     -- scss = { "prettierd" },
-    --     -- javascript = { "prettierd" },
-    --     -- javascriptreact = { "prettierd" },
-    --     -- typescript = { "prettierd" },
-    --     -- typescriptreact = { "prettierd" },
-    --     -- markdown = { "prettierd" },
-    --
-    --     lua = { "stylua" },
-    --
-    --     -- sh = { "shfmt" },
-    --     -- zsh = { "shfmt" },
-    --   },
-    --   format_on_save = { lsp_fallback = true, async = false, timeout = 500 },
-    -- },
   },
 
   -- Format
@@ -224,7 +204,7 @@ local plugins = {
     dependencies = "mfussenegger/nvim-dap",
     config = function(_, opts)
       require("dap-go").setup(opts)
-      require("core.utils").load_mappings "dap_go"
+      -- require("core.utils").load_mappings "dap_go"
     end,
   },
   {
