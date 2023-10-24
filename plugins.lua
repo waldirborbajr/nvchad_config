@@ -213,6 +213,28 @@ local plugins = {
 
   -- Debugging
   {
+    "mfussenegger/nvim-dap",
+    init = function()
+      require("core.utils").load_mappings "dap"
+    end,
+  },
+  {
+    "leoluz/nvim-dap-go",
+    ft = "go",
+    dependencies = "mfussenegger/nvim-dap",
+    config = function(_, opts)
+      require("dap-go").setup(opts)
+      require("core.utils").load_mappings "dap_go"
+    end,
+  },
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    lazy = false,
+    config = function(_, opts)
+      require("nvim-dap-virtual-text").setup()
+    end,
+  },
+  {
     "rcarriga/nvim-dap-ui",
     -- init = function()
     --   require("core.utils").load_mappings "Dap"
@@ -257,6 +279,39 @@ local plugins = {
     ft = { "markdown" },
     build = function()
       vim.fn["mkdp#util#install"]()
+    end,
+  },
+
+  -- Rust
+  {
+    "simrat39/rust-tools.nvim",
+    ft = "rust",
+    dependencies = "neovim/nvim-lspconfig",
+    opts = function()
+      return require "custom.configs.rust-tools"
+    end,
+    config = function(_, opts)
+      require("rust-tools").setup(opts)
+    end,
+  },
+  {
+    "saecki/crates.nvim",
+    ft = { "rust", "toml" },
+    config = function(_, opts)
+      local crates = require "crates"
+      crates.setup(opts)
+      require("cmp").setup.buffer {
+        sources = { { name = "crates" } },
+      }
+      crates.show()
+      require("core.utils").load_mappings "crates"
+    end,
+  },
+  {
+    "rust-lang/rust.vim",
+    ft = "rust",
+    init = function()
+      vim.g.rustfmt_autosave = 1
     end,
   },
 }

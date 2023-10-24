@@ -62,6 +62,18 @@ M.dap = {
   },
 }
 
+M.crates = {
+  plugin = true,
+  n = {
+    ["<leader>rcu"] = {
+      function()
+        require("crates").upgrade_all_crates()
+      end,
+      "update crates",
+    },
+  },
+}
+
 M.general = {
   n = {
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
