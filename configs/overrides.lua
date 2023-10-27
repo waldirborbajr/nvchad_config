@@ -21,6 +21,7 @@ M.treesitter = {
     "bash",
     "json",
     "yaml",
+    "toml",
   },
   textobjects = {
     select = {
