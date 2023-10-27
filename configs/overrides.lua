@@ -5,7 +5,11 @@ M.treesitter = {
     "vim",
     "lua",
     "go",
+    "gomod",
+    "gowork",
+    "gosum",
     "bash",
+    "rust",
     -- "html",
     -- "css",
     -- "javascript",
@@ -14,6 +18,32 @@ M.treesitter = {
     -- "c",
     "markdown",
     "markdown_inline",
+    "bash",
+    "json",
+    "yaml",
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+        ["aa"] = "@parameter.outer",
+        ["ia"] = "@parameter.inner",
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true,
+      goto_next_start = {
+        ["]]"] = "@function.outer",
+      },
+      goto_previous_start = {
+        ["[["] = "@function.outer",
+      },
+    },
   },
   indent = {
     enable = true,
@@ -28,7 +58,14 @@ M.mason = {
     -- lua stuff
     "lua-language-server",
     "stylua",
+
+    -- go stuff
     "gopls",
+    "goimports",
+
+    -- bash stuff
+    "shfmt",
+    "shellcheck",
 
     -- web dev stuff
     -- "css-lsp",
@@ -62,13 +99,16 @@ M.nvimtree = {
 M.formatters = {
   format_on_save = {
     -- These options will be passed to conform.format()
-    async = true,
+    async = false,
+    timeout_ms = 1000,
     quiet = true,
     lsp_fallback = true,
   },
   formatters_by_ft = {
     lua = { "stylua" },
     go = { "gofumpt", "goimports", "golines" },
+    markdown = { "prettier" },
+    rust = { "rustfmt", "taplo" },
   },
 }
 
