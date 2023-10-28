@@ -63,6 +63,7 @@ M.mason = {
     -- go stuff
     "gopls",
     "goimports",
+    "gofumpt",
 
     -- bash stuff
     "shfmt",
