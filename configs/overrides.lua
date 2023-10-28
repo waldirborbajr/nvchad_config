@@ -69,6 +69,9 @@ M.mason = {
     "shfmt",
     "shellcheck",
 
+    -- rust
+    "rust-analyzer",
+
     -- web dev stuff
     -- "css-lsp",
     -- "html-lsp",
