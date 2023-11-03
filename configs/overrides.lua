@@ -64,13 +64,26 @@ M.mason = {
     "gopls",
     "goimports",
     "gofumpt",
+    "glint",
+    "go-debug-adapter",
+    "goimports-reviser",
+    "golangci-lint",
+    "golangci-lint-langserver",
+    "golines",
+    "gotests",
+    "gotestsum",
 
     -- bash stuff
     "shfmt",
     "shellcheck",
 
     -- rust
+    "rustfmt",
     "rust-analyzer",
+
+    -- markdown
+    "marksman",
+    "misspell",
 
     -- web dev stuff
     -- "css-lsp",

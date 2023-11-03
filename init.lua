@@ -1,6 +1,8 @@
 require "custom.autocmds"
 
 vim.g.dap_virtual_text = true
+vim.opt.termguicolors = true
+vim.o.spell = true
 
 -- local autocmd = vim.api.nvim_create_autocmd
 
