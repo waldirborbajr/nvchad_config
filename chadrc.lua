@@ -5,12 +5,12 @@ local M = {}
 local highlights = require "custom.highlights"
 
 M.ui = {
-  transparency = false,
   theme = "onenord",
   theme_toggle = { "onenord", "one_light" },
 
   hl_override = highlights.override,
   hl_add = highlights.add,
+  transparency = false,
 }
 
 M.plugins = "custom.plugins"
