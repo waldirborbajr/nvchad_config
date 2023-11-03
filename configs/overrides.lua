@@ -78,7 +78,6 @@ M.mason = {
     "shellcheck",
 
     -- rust
-    "rustfmt",
     "rust-analyzer",
 
     -- markdown
