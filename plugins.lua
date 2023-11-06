@@ -277,6 +277,7 @@ local plugins = {
   },
   {
     "saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
     ft = { "toml" },
     config = function(_, opts)
       local crates = require "crates"
