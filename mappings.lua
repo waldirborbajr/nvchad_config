@@ -74,6 +74,12 @@ M.crates = {
   },
 }
 
+M.rust = {
+  n = {
+    ["<leader>ca"] = { ":RustCodeAction<cr>", opts = { silent = true } },
+  },
+}
+
 M.general = {
   n = {
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
