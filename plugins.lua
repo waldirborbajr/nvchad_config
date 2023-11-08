@@ -124,7 +124,7 @@ local plugins = {
 
   -- AI Autocomplete
   -- {
-  --   "Exafunction/codeium.vim",
+  --   "Exafunction/codeium.nvim",
   --   event = "BufEnter",
   --   -- event = "VeryLazy",
   --   --   event = "BufEnter",
@@ -330,7 +330,11 @@ local plugins = {
 
       -- ai based completion
       {
-        "jcdickinson/codeium.nvim",
+        "Exafunction/codeium.nvim",
+        dependencies = {
+          "nvim-lua/plenary.nvim",
+          "hrsh7th/nvim-cmp",
+        },
         config = function()
           require("codeium").setup {}
         end,
