@@ -125,6 +125,11 @@ local plugins = {
   -- AI Autocomplete
   -- {
   --   "Exafunction/codeium.nvim",
+  -- cmd = "Codeium",
+  -- dependencies = {
+  --   "nvim-lua/plenary.nvim",
+  --   "hrsh7th/nvim-cmp",
+  -- },
   --   event = "BufEnter",
   --   -- event = "VeryLazy",
   --   --   event = "BufEnter",
@@ -327,7 +332,6 @@ local plugins = {
   },
   -- {
   --   "simrat39/rust-tools.nvim",
-  --   after = "nvim-lspconfig",
   --   ft = "rust",
   --   dependencies = "neovim/nvim-lspconfig",
   --   opts = function()
@@ -342,13 +346,14 @@ local plugins = {
     event = { "BufRead Cargo.toml" },
     ft = { "toml" },
     config = function(_, opts)
-      local crates = require "crates"
-      crates.setup(opts)
+      -- local crates = require "crates"
+      require("crates").setup(opts)
+      require("crates").show()
       require("cmp").setup.buffer {
         sources = { { name = "crates" } },
       }
-      crates.show()
-      require("core.utils").load_mappings "crates"
+      -- crates.show()
+      -- require("core.utils").load_mappings "crates"
     end,
   },
   {
