@@ -8,9 +8,18 @@ local lspconfig = require "lspconfig"
 local servers = { "gopls", "dockerls", "rust_analyzer", "yamlls" }
 -- local servers = { "gopls", "rust_analyzer" }
 
+local custom_on_attach = function(client, bufnr)
+  on_attach(client, bufnr)
+
+  if client.server_capabilities.inlayHintProvider then
+    vim.lsp.inlay_hint(bufnr, true)
+  end
+end
+
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
-    on_attach = on_attach,
+    -- on_attach = on_attach,
+    on_attach = custom_on_attach,
     capabilities = capabilities,
   }
 end
