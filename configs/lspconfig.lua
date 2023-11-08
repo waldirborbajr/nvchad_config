@@ -34,6 +34,16 @@ vim.diagnostic.config {
 
 local util = require "lspconfig/util"
 
+-- lspconfig.lua_ls.setup {
+--   settings = {
+--     Lua = {
+--       diagnostics = {
+--         globals = { "vim" },
+--       },
+--     },
+--   },
+-- }
+
 lspconfig.gopls.setup {
   on_attach = on_attach,
   capabilities = capabilities,

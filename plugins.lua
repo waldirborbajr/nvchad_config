@@ -332,6 +332,12 @@ local plugins = {
   },
   -- {
   --   "simrat39/rust-tools.nvim",
+  --   ft = require("custom.configs.rust-tools").filetype,
+  --   dependencies = require("custom.configs.rust-tools").dependencies,
+  --   config = require("custom.configs.rust-tools").config,
+  -- },
+  -- {
+  --   "simrat39/rust-tools.nvim",
   --   ft = "rust",
   --   dependencies = "neovim/nvim-lspconfig",
   --   opts = function()
