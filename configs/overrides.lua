@@ -100,13 +100,14 @@ M.mason = {
 
 -- git support in nvimtree
 M.nvimtree = {
+  auto_reload_on_write = true,
   filters = {
     dotfiles = true,
     custom = { "node_modules" },
   },
   git = {
     enable = true,
-    ignore = true,
+    ignore = false,
   },
 
   renderer = {
@@ -116,6 +117,12 @@ M.nvimtree = {
         git = true,
       },
     },
+  },
+  modified = {
+    enable = true,
+  },
+  view = {
+    preserve_window_proportions = true,
   },
 }
 
@@ -161,14 +168,30 @@ M.dap_ui = {
 }
 
 M.cmp = {
+  completion = {
+    completeopt = "menu,menuone,noselect",
+  },
   sources = {
+    { name = "codeium", group_index = 2 },
+    { name = "nvim_lsp", group_index = 2 },
+    { name = "luasnip", group_index = 2 },
+    { name = "buffer", group_index = 2 },
+    { name = "nvim_lua", group_index = 2 },
+    { name = "path", group_index = 2 },
+    { name = "crates", group_index = 2 },
     -- trigger_characters is for unocss lsp
-    { name = "nvim_lsp", trigger_characters = { "-" } },
-    { name = "path" },
-    { name = "luasnip" },
-    { name = "buffer" },
-    { name = "codeium" },
-    { name = "nvim_lua" },
+    -- { name = "nvim_lsp", trigger_characters = { "-" } },
+    -- { name = "path" },
+    -- { name = "luasnip" },
+    -- { name = "buffer" },
+    -- { name = "codeium" },
+    -- { name = "nvim_lua" },
+  },
+  mapping = {
+    ["<CR>"] = require("cmp").mapping.confirm {
+      behavior = require("cmp").ConfirmBehavior.Insert,
+      select = false,
+    },
   },
   experimental = {
     ghost_text = true,

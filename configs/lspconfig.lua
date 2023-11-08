@@ -24,6 +24,11 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+vim.diagnostic.config {
+  virtual_text = false,
+  underline = true,
+}
+
 --
 -- lspconfig.pyright.setup { blabla}
 
@@ -77,4 +82,17 @@ lspconfig.gopls.setup {
 --   capabilities = capabilities,
 --   filetypes = { "rust" },
 --   root_dir = lspconfig.util.root_pattern "Cargo.toml",
+-- }
+
+-- lspconfig.rust_analyzer.setup {
+--   settings = {
+--     ["rust-analyzer"] = {
+--       cargo = {
+--         allFeatures = true,
+--       },
+--       -- checkOnSave = {
+--       --   command = "clippy",
+--       -- },
+--     },
+--   },
 -- }
