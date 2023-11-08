@@ -266,6 +266,7 @@ local plugins = {
   -- Rust
   {
     "simrat39/rust-tools.nvim",
+    after = "nvim-lspconfig",
     ft = "rust",
     dependencies = "neovim/nvim-lspconfig",
     opts = function()
