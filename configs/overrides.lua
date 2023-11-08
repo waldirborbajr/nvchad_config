@@ -76,6 +76,7 @@ M.mason = {
     -- bash stuff
     "shfmt",
     "shellcheck",
+    "bash-language-server",
 
     -- rust
     "rust-analyzer",
@@ -99,8 +100,13 @@ M.mason = {
 
 -- git support in nvimtree
 M.nvimtree = {
+  filters = {
+    dotfiles = true,
+    custom = { "node_modules" },
+  },
   git = {
     enable = true,
+    ignore = true,
   },
 
   renderer = {
@@ -126,6 +132,7 @@ M.formatters = {
     go = { "gofumpt", "goimports", "golines" },
     markdown = { "prettier" },
     rust = { "rustfmt", "taplo" },
+    sh = { "shfmt" },
   },
 }
 
@@ -150,6 +157,21 @@ M.dap_ui = {
       size = 0.25, -- 25% of total lines
       position = "bottom",
     },
+  },
+}
+
+M.cmp = {
+  sources = {
+    -- trigger_characters is for unocss lsp
+    { name = "nvim_lsp", trigger_characters = { "-" } },
+    { name = "path" },
+    { name = "luasnip" },
+    { name = "buffer" },
+    { name = "codeium" },
+    { name = "nvim_lua" },
+  },
+  experimental = {
+    ghost_text = true,
   },
 }
 

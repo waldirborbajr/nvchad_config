@@ -123,31 +123,31 @@ local plugins = {
   },
 
   -- AI Autocomplete
-  {
-    "Exafunction/codeium.vim",
-    event = "BufEnter",
-    -- event = "VeryLazy",
-    --   event = "BufEnter",
-    config = function()
-      -- Change '<C-g>' here to any keycode you like.
-      vim.keymap.set("i", "<C-g>", function()
-        return vim.fn["codeium#Accept"]()
-      end, { expr = true })
-      vim.keymap.set("i", "<c-;>", function()
-        return vim.fn["codeium#CycleCompletions"](1)
-      end, { expr = true })
-      vim.keymap.set("i", "<c-,>", function()
-        return vim.fn["codeium#CycleCompletions"](-1)
-      end, { expr = true })
-      vim.keymap.set("i", "<c-x>", function()
-        return vim.fn["codeium#Clear"]()
-      end, { expr = true })
-
-      vim.g.codeium_filetypes = {
-        ["TelescopePrompt"] = false,
-      }
-    end,
-  },
+  -- {
+  --   "Exafunction/codeium.vim",
+  --   event = "BufEnter",
+  --   -- event = "VeryLazy",
+  --   --   event = "BufEnter",
+  --   config = function()
+  --     -- Change '<C-g>' here to any keycode you like.
+  --     vim.keymap.set("i", "<C-g>", function()
+  --       return vim.fn["codeium#Accept"]()
+  --     end, { expr = true })
+  --     vim.keymap.set("i", "<c-;>", function()
+  --       return vim.fn["codeium#CycleCompletions"](1)
+  --     end, { expr = true })
+  --     vim.keymap.set("i", "<c-,>", function()
+  --       return vim.fn["codeium#CycleCompletions"](-1)
+  --     end, { expr = true })
+  --     vim.keymap.set("i", "<c-x>", function()
+  --       return vim.fn["codeium#Clear"]()
+  --     end, { expr = true })
+  --
+  --     vim.g.codeium_filetypes = {
+  --       ["TelescopePrompt"] = false,
+  --     }
+  --   end,
+  -- },
 
   -- Git
   {
@@ -295,6 +295,35 @@ local plugins = {
     init = function()
       vim.g.rustfmt_autosave = 1
     end,
+  },
+
+  {
+    "hrsh7th/nvim-cmp",
+    opts = overrides.cmp,
+
+    dependencies = {
+      -- {
+      --   -- snippet plugin
+      --   "L3MON4D3/LuaSnip",
+      --   config = function(_, opts)
+      --     -- load default luasnip config
+      --     require("plugins.configs.others").luasnip(opts)
+      --
+      --     local luasnip = require "luasnip"
+      --     luasnip.filetype_extend("javascriptreact", { "html" })
+      --     luasnip.filetype_extend("typescriptreact", { "html" })
+      --     require("luasnip/loaders/from_vscode").lazy_load()
+      --   end,
+      -- },
+
+      -- ai based completion
+      {
+        "jcdickinson/codeium.nvim",
+        config = function()
+          require("codeium").setup {}
+        end,
+      },
+    },
   },
 }
 
