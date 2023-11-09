@@ -26,6 +26,8 @@ function M.config()
         auto = true,
         only_current_line = true,
         show_parameter_hints = true,
+        parameter_hints_prefix = "",
+        other_hints_prefix = "",
       },
       hover_actions = {
         border = "none",
