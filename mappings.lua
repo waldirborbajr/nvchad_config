@@ -66,11 +66,94 @@ M.dap = {
 M.crates = {
   plugin = true,
   n = {
+    ["<leader>rcp"] = {
+      function()
+        require("crates").show_popup()
+      end,
+      "Show popup",
+    },
+    ["<leader>rcr"] = {
+      function()
+        require("crates").reload()
+      end,
+      "Reload",
+    },
+
+    ["<leader>rcv"] = {
+      function()
+        require("crates").show_versions_popup()
+      end,
+      "Show Versions",
+    },
+
+    ["<leader>rcf"] = {
+      function()
+        require("crates").show_features_popup()
+      end,
+      "Show Features",
+    },
+
+    ["<leader>rcd"] = {
+      function()
+        require("crates").show_dependencies_popup()
+      end,
+      "Show Dependencies Popup",
+    },
+
     ["<leader>rcu"] = {
       function()
-        require("crates").upgrade_all_crates()
+        require("crates").update_crate()
       end,
-      "update crates",
+      "Update Crate",
+    },
+
+    ["<leader>rca"] = {
+      function()
+        require("crates").update_all_crates()
+      end,
+      "Update All Crates",
+    },
+
+    ["<leader>rcU"] = {
+      function()
+        require("crates").upgrade_crate()
+      end,
+      "Upgrade Crate",
+    },
+
+    ["<leader>rcA"] = {
+      function()
+        require("crates").upgrade_all_crates(true)
+      end,
+      "Upgrade All Crates",
+    },
+
+    ["<leader>rcH"] = {
+      function()
+        require("crates").open_homepage()
+      end,
+      "Open Homepage",
+    },
+
+    ["<leader>rcR"] = {
+      function()
+        require("crates").open_repository()
+      end,
+      "Open Repository",
+    },
+
+    ["<leader>rcD"] = {
+      function()
+        require("crates").open_documentation()
+      end,
+      "Open Documentation",
+    },
+
+    ["<leader>rcC"] = {
+      function()
+        require("crates").open_crates_io()
+      end,
+      "Open Crate.io",
     },
   },
 }
