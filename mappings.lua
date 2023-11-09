@@ -46,6 +46,7 @@ M.bplus = {
 }
 
 M.dap = {
+  plugin = true,
   n = {
     ["<leader>dc"] = { ":lua require'dap'.continue()<cr>", "Continue", opts = { silent = true } },
     ["<leader>do"] = { ":lua require'dap'.step_over()<cr>", "Step Over", opts = { silent = true } },
@@ -76,7 +77,32 @@ M.crates = {
 
 M.rust = {
   n = {
-    ["<leader>ca"] = { ":RustCodeAction<cr>", opts = { silent = true } },
+    ["<leader>rra"] = { require("custom.configs.rust-tools").hover_actions, "Hover Actions" },
+    ["<leader>rca"] = { "<cmd>RustCodeAction<Cr>", "Code Actions" },
+    ["<leader>rrr"] = { "<cmd>RustRunnables<Cr>", "Runnables" },
+    ["<leader>rre"] = { "<cmd>RustExpandMacro<Cr>", "Expand Macro" },
+    ["<leader>rrc"] = { "<cmd>RustOpenCargo<Cr>", "Open Cargo" },
+    ["<leader>rrp"] = { "<cmd>RustParentModule<Cr>", "Parent Module" },
+    ["<leader>rrd"] = { "<cmd>RustDebuggables<Cr>", "Debuggables" },
+    ["<leader>rrg"] = { "<cmd>RustViewCrateGraph<Cr>", "View Crate Graph" },
+    ["<leader>rrj"] = {
+      function()
+        require("rust-tools").join_lines.join_lines()
+      end,
+      "Join Lines",
+    },
+    ["<leader>rrt"] = {
+      function()
+        require("rust-tools")._CARGO_TEST()
+      end,
+      "Cargo Test",
+    },
+    ["<leader>rrR"] = {
+      function()
+        require("rust-tools/workspace_refresh")._reload_workspace_from_cargo_toml()
+      end,
+      "Reload Workspace",
+    },
   },
 }
 

@@ -85,6 +85,8 @@ M.mason = {
     "marksman",
     "misspell",
 
+    "codelldb",
+
     -- web dev stuff
     -- "css-lsp",
     -- "html-lsp",
