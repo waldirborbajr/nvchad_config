@@ -4,9 +4,7 @@ local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
 
 -- if you just want default config for the servers then put them in a table
--- local servers = { "html", "cssls", "tsserver", "clangd" }
 local servers = { "gopls", "dockerls", "rust_analyzer", "yamlls" }
--- local servers = { "gopls", "rust_analyzer" }
 
 local custom_on_attach = function(client, bufnr)
   on_attach(client, bufnr)
