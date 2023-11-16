@@ -66,90 +66,90 @@ M.dap = {
 M.crates = {
   plugin = true,
   n = {
-    ["<leader>rcp"] = {
+    ["<leader>cp"] = {
       function()
         require("crates").show_popup()
       end,
       "Show popup",
     },
-    ["<leader>rcr"] = {
+    ["<leader>cr"] = {
       function()
         require("crates").reload()
       end,
       "Reload",
     },
 
-    ["<leader>rcv"] = {
+    ["<leader>cv"] = {
       function()
         require("crates").show_versions_popup()
       end,
       "Show Versions",
     },
 
-    ["<leader>rcf"] = {
+    ["<leader>cf"] = {
       function()
         require("crates").show_features_popup()
       end,
       "Show Features",
     },
 
-    ["<leader>rcd"] = {
+    ["<leader>cd"] = {
       function()
         require("crates").show_dependencies_popup()
       end,
       "Show Dependencies Popup",
     },
 
-    ["<leader>rcu"] = {
+    ["<leader>cu"] = {
       function()
         require("crates").update_crate()
       end,
       "Update Crate",
     },
 
-    ["<leader>rca"] = {
+    ["<leader>ca"] = {
       function()
         require("crates").update_all_crates()
       end,
       "Update All Crates",
     },
 
-    ["<leader>rcU"] = {
+    ["<leader>cU"] = {
       function()
         require("crates").upgrade_crate()
       end,
       "Upgrade Crate",
     },
 
-    ["<leader>rcA"] = {
+    ["<leader>cA"] = {
       function()
         require("crates").upgrade_all_crates(true)
       end,
       "Upgrade All Crates",
     },
 
-    ["<leader>rcH"] = {
+    ["<leader>cH"] = {
       function()
         require("crates").open_homepage()
       end,
       "Open Homepage",
     },
 
-    ["<leader>rcR"] = {
+    ["<leader>cR"] = {
       function()
         require("crates").open_repository()
       end,
       "Open Repository",
     },
 
-    ["<leader>rcD"] = {
+    ["<leader>cD"] = {
       function()
         require("crates").open_documentation()
       end,
       "Open Documentation",
     },
 
-    ["<leader>rcC"] = {
+    ["<leader>cC"] = {
       function()
         require("crates").open_crates_io()
       end,
