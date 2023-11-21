@@ -357,6 +357,7 @@ local plugins = {
     "rust-lang/rust.vim",
     ft = "rust",
     init = function()
+      vim.g.rust_recommended_style = false
       vim.g.rustfmt_autosave = 1
     end,
   },
