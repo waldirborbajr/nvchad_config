@@ -47,12 +47,6 @@ local plugins = {
     end,
   },
 
-  -- To make a plugin not be loaded
-  -- {
-  --   "NvChad/nvim-colorizer.lua",
-  --   enabled = false
-  -- },
-
   -- All NvChad plugins are lazy-loaded by default
   -- For a plugin to be loaded, you will need to set either `ft`, `cmd`, `keys`, `event`, or set `lazy = false`
   -- If you want a plugin to load on startup, add `lazy = false` to a plugin spec, for example
@@ -72,7 +66,7 @@ local plugins = {
   --     { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
   --   } },
   -- },
-  --
+
 
   -- GO
   {
@@ -123,36 +117,27 @@ local plugins = {
   },
 
   -- AI Autocomplete
-  -- {
-  --   "Exafunction/codeium.nvim",
-  -- cmd = "Codeium",
-  -- dependencies = {
-  --   "nvim-lua/plenary.nvim",
-  --   "hrsh7th/nvim-cmp",
-  -- },
-  --   event = "BufEnter",
-  --   -- event = "VeryLazy",
-  --   --   event = "BufEnter",
-  --   config = function()
-  --     -- Change '<C-g>' here to any keycode you like.
-  --     vim.keymap.set("i", "<C-g>", function()
-  --       return vim.fn["codeium#Accept"]()
-  --     end, { expr = true })
-  --     vim.keymap.set("i", "<c-;>", function()
-  --       return vim.fn["codeium#CycleCompletions"](1)
-  --     end, { expr = true })
-  --     vim.keymap.set("i", "<c-,>", function()
-  --       return vim.fn["codeium#CycleCompletions"](-1)
-  --     end, { expr = true })
-  --     vim.keymap.set("i", "<c-x>", function()
-  --       return vim.fn["codeium#Clear"]()
-  --     end, { expr = true })
-  --
-  --     vim.g.codeium_filetypes = {
-  --       ["TelescopePrompt"] = false,
-  --     }
-  --   end,
-  -- },
+  {
+    "Exafunction/codeium.vim",
+    cmd = "Codeium",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
+    -- event = "BufEnter",
+    event = "VeryLazy",
+    config = function()
+      -- Change '<C-g>' here to any keycode you like.
+      vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true })
+      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
+      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
+      vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
+
+      vim.g.codeium_filetypes = {
+        ["TelescopePrompt"] = false,
+      }
+    end,
+  },
 
   -- Git
   {

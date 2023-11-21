@@ -181,13 +181,6 @@ M.cmp = {
     { name = "nvim_lua", group_index = 2 },
     { name = "path", group_index = 2 },
     { name = "crates", group_index = 2 },
-    -- trigger_characters is for unocss lsp
-    -- { name = "nvim_lsp", trigger_characters = { "-" } },
-    -- { name = "path" },
-    -- { name = "luasnip" },
-    -- { name = "buffer" },
-    -- { name = "codeium" },
-    -- { name = "nvim_lua" },
   },
   mapping = {
     ["<CR>"] = require("cmp").mapping.confirm {
