@@ -67,7 +67,6 @@ local plugins = {
   --   } },
   -- },
 
-
   -- GO
   {
     "olexsmir/gopher.nvim",
@@ -128,10 +127,18 @@ local plugins = {
     event = "VeryLazy",
     config = function()
       -- Change '<C-g>' here to any keycode you like.
-      vim.keymap.set('i', '<C-g>', function () return vim.fn['codeium#Accept']() end, { expr = true })
-      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
-      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
-      vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
+      vim.keymap.set("i", "<C-g>", function()
+        return vim.fn["codeium#Accept"]()
+      end, { expr = true })
+      vim.keymap.set("i", "<c-;>", function()
+        return vim.fn["codeium#CycleCompletions"](1)
+      end, { expr = true })
+      vim.keymap.set("i", "<c-,>", function()
+        return vim.fn["codeium#CycleCompletions"](-1)
+      end, { expr = true })
+      vim.keymap.set("i", "<c-x>", function()
+        return vim.fn["codeium#Clear"]()
+      end, { expr = true })
 
       vim.g.codeium_filetypes = {
         ["TelescopePrompt"] = false,
@@ -165,7 +172,7 @@ local plugins = {
   {
     "stevearc/conform.nvim",
     -- event = "VeryLazy",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPre", "BufNewFile", "BufWritePre" },
     opts = overrides.formatters,
     keys = {
       -- stylua: ignore

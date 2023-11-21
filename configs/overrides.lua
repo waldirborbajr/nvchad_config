@@ -132,7 +132,7 @@ M.formatters = {
   format_on_save = {
     -- These options will be passed to conform.format()
     async = false,
-    timeout_ms = 1000,
+    timeout_ms = 2000,
     quiet = true,
     lsp_fallback = true,
   },
@@ -140,8 +140,26 @@ M.formatters = {
     lua = { "stylua" },
     go = { "gofumpt", "goimports", "golines" },
     markdown = { "prettier" },
-    rust = { "rustfmt", "taplo" },
+    rust = { "rustfmt" },
+    toml = { "taplo" },
     sh = { "shfmt" },
+    zsh = { "shfmt" },
+    bash = { "shfmt" },
+    -- Missing Markdownlint
+    ["*"] = { "trim_whitespace", "trim_newlines" },
+  },
+  formatters = {
+    shfmt = {
+      prepend_args = { "-i", "2", "-ci" },
+    },
+    beautysh = {
+      prepend_args = { "-i", "2" },
+    },
+    -- dprint = {
+    --   condition = function(ctx)
+    --     return vim.fs.find({ "dprint.json" }, { path = ctx.filename, upward = true })[1]
+    --   end,
+    -- },
   },
 }
 
