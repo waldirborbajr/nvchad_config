@@ -116,36 +116,36 @@ local plugins = {
   },
 
   -- AI Autocomplete
-  {
-    "Exafunction/codeium.vim",
-    cmd = "Codeium",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
-    },
-    -- event = "BufEnter",
-    event = "VeryLazy",
-    config = function()
-      -- Change '<C-g>' here to any keycode you like.
-      vim.keymap.set("i", "<C-g>", function()
-        return vim.fn["codeium#Accept"]()
-      end, { expr = true })
-      vim.keymap.set("i", "<c-;>", function()
-        return vim.fn["codeium#CycleCompletions"](1)
-      end, { expr = true })
-      vim.keymap.set("i", "<c-,>", function()
-        return vim.fn["codeium#CycleCompletions"](-1)
-      end, { expr = true })
-      vim.keymap.set("i", "<c-x>", function()
-        return vim.fn["codeium#Clear"]()
-      end, { expr = true })
-
-      vim.g.codeium_filetypes = {
-        ["TelescopePrompt"] = false,
-      }
-    end,
-  },
-
+  -- {
+  --   "Exafunction/codeium.vim",
+  --   cmd = "Codeium",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "hrsh7th/nvim-cmp",
+  --   },
+  --   -- event = "BufEnter",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     -- Change '<C-g>' here to any keycode you like.
+  --     vim.keymap.set("i", "<C-g>", function()
+  --       return vim.fn["codeium#Accept"]()
+  --     end, { expr = true })
+  --     vim.keymap.set("i", "<c-;>", function()
+  --       return vim.fn["codeium#CycleCompletions"](1)
+  --     end, { expr = true })
+  --     vim.keymap.set("i", "<c-,>", function()
+  --       return vim.fn["codeium#CycleCompletions"](-1)
+  --     end, { expr = true })
+  --     vim.keymap.set("i", "<c-x>", function()
+  --       return vim.fn["codeium#Clear"]()
+  --     end, { expr = true })
+  --
+  --     vim.g.codeium_filetypes = {
+  --       ["TelescopePrompt"] = false,
+  --     }
+  --   end,
+  -- },
+  --
   -- Git
   {
     "kdheepak/lazygit.nvim",
@@ -378,6 +378,16 @@ local plugins = {
     -- end,
 
     dependencies = {
+      {
+        "saecki/crates.nvim",
+        tag = "v0.4.0",
+        opts = {},
+      },
+      {
+        "Exafunction/codeium.nvim",
+        opts = {},
+      },
+      -- "Exafunction/codeium.vim",
       -- {
       --   -- snippet plugin
       --   "L3MON4D3/LuaSnip",
