@@ -32,6 +32,8 @@ M.bplus = {
     ["<S-Tab>"] = { "<cmd>bprev<cr>", desc = "Prev buffer" },
     ["gh"] = { "<cmd>OpenGithubRepo<cr>", desc = "Open Github Repo" },
     ["<leader>ip"] = { "<cmd> Inspect<cr>", "HL Group Under Cursor" },
+    ["<C-d>"] = { "<C-d>zz", "Page down - recenter screen" },
+    ["<C-u>"] = { "<C-u>zz", "Page up - recenter screen" },
   },
   v = {
     --copy vscode
