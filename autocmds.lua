@@ -19,15 +19,26 @@ vim.api.nvim_create_autocmd("User", {
 -- Remember cursor position when reopening files
 -- https://stackoverflow.com/questions/31449496/vim-ignore-specifc-file-in-autocommand
 -- autocmd BufWinEnter * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"zz" | endif
-vim.api.nvim_exec(
-  [[
-  augroup remember-cursor-position
-      autocmd!
-      autocmd BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-  augroup END
-]],
-  false
-)
+-- vim.api.nvim_exec(
+--   [[
+--   augroup remember-cursor-position
+--       autocmd!
+--       autocmd BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+--   augroup END
+-- ]],
+--   false
+-- )
+local group = vim.api.nvim_create_augroup("RememberCursor", { clear = true })
+vim.api.nvim_create_autocmd("BufReadPost", {
+  group = group,
+  pattern = "*",
+  callback = function()
+    local row, col = unpack(vim.api.nvim_buf_get_mark(0, '"'))
+    if row > 0 and row <= vim.api.nvim_buf_line_count(0) then
+      vim.api.nvim_win_set_cursor(0, { row, col })
+    end
+  end,
+})
 
 vim.api.nvim_create_autocmd({ "BufLeave" }, {
   callback = function()
