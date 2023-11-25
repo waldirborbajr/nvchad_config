@@ -4,7 +4,7 @@ local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
 
 -- if you just want default config for the servers then put them in a table
-local servers = { "gopls", "dockerls", "rust_analyzer", "yamlls" }
+local servers = { "gopls", "golangci_lint_ls", "dockerls", "rust_analyzer", "yamlls" }
 
 local custom_on_attach = function(client, bufnr)
   on_attach(client, bufnr)
@@ -81,6 +81,20 @@ lspconfig.gopls.setup {
       semanticTokens = true,
     },
   },
+}
+
+-- YAML
+lspconfig.yamlls.setup {
+  capabilities = capabilities,
+  -- flags = default_flags,
+  settings = {
+    yaml = {
+      schemas = {
+        ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+      },
+    },
+  },
+  on_attach = on_attach,
 }
 
 -- lspconfig.rust_analyzer.setup {
