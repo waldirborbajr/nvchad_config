@@ -163,7 +163,7 @@ M.formatters = {
   },
   formatters_by_ft = {
     lua = { "stylua" },
-    go = { "gofumpt", "goimports", "golines" },
+    go = { "gofmt", "gofumpt", "goimports", "golines" },
     markdown = { "prettier" },
     rust = { "rustfmt" },
     toml = { "taplo" },

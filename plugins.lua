@@ -8,9 +8,9 @@ local plugins = {
   {
     "neovim/nvim-lspconfig",
     -- dependencies = {
-    -- format & linting
-    -- {
-    --   "jose-elias-alvarez/null-ls.nvim",
+    -- format & lintingplus
+    -- {plus
+    --   "jose-elias-alvarez/null-ls.nvim",plus
     --   config = function()
     --     require "custom.configs.null-ls"
     --   end,
@@ -176,18 +176,18 @@ local plugins = {
     opts = overrides.formatters,
     keys = {
       -- stylua: ignore
-      { '=', function() require('conform').format { async = true, lsp_fallback = true } end, mode = '', desc = 'Format buffer' },
+      { 'C-/', function() require('conform').format { async = true, lsp_fallback = true } end, mode = '', desc = 'Format buffer' },
     },
   },
 
   -- Format
-  {
-    "mhartington/formatter.nvim",
-    event = "VeryLazy",
-    opts = function()
-      return require "custom.configs.formatter"
-    end,
-  },
+  -- {
+  --   "mhartington/formatter.nvim",
+  --   event = "VeryLazy",
+  --   opts = function()
+  --     return require "custom.configs.formatter"
+  --   end,
+  -- },
 
   -- Debugging
   {
