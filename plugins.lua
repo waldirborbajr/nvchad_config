@@ -172,12 +172,12 @@ local plugins = {
   {
     "stevearc/conform.nvim",
     -- event = "VeryLazy",
-    event = { "BufReadPre", "BufNewFile", "BufWritePre" },
-    opts = overrides.formatters,
-    keys = {
-      -- stylua: ignore
-      { 'C-/', function() require('conform').format { async = true, lsp_fallback = true } end, mode = '', desc = 'Format buffer' },
-    },
+    event = { "BufWritePre" },
+    opts = overrides.conform,
+    -- keys = {
+    --   -- stylua: ignore
+    --   { 'C-/', function() require('conform').format { async = true, lsp_fallback = true } end, mode = '', desc = 'Format buffer' },
+    -- },
   },
 
   -- Format
@@ -262,87 +262,22 @@ local plugins = {
   -- Rust
   {
     "simrat39/rust-tools.nvim",
-    ft = "rust",
-    config = function()
-      require("rust-tools").setup {
-        tools = {
-          runnables = {
-            use_telescope = true,
-          },
-          inlay_hints = {
-            auto = true,
-            show_parameter_hints = false,
-            parameter_hints_prefix = "",
-            other_hints_prefix = "",
-          },
-        },
-        --
-        -- all the opts to send to nvim-lspconfig
-        -- these override the defaults set by rust-tools.nvim
-        -- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
-        server = {
-          on_attach = function(_, buffer)
-            require("core.utils").load_mappings "lspconfig"
-          end,
-
-          settings = {
-            ["rust-analyzer"] = {
-              cargo = {
-                allFeatures = true,
-              },
-              assist = {
-                importEnforceGranularity = true,
-                importPrefix = "crate",
-              },
-              checkOnSave = {
-                command = "clippy",
-              },
-              -- inlayHints = { locationLinks = false },
-              diagnostics = {
-                enable = true,
-                experimental = {
-                  enable = true,
-                },
-              },
-            },
-          },
-
-          -- settings = {
-          --   -- to enable rust-analyzer settings visit:
-          --   -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-          --   ["rust-analyzer"] = {
-          --     -- enable clippy on save
-          --     checkOnSave = {
-          --       command = "clippy",
-          --     },
-          --   },
-          -- },
-        },
-      }
-    end,
+    ft = { "rust" },
+    dependencies = { "neovim/nvim-lspconfig" },
+    opts = overrides.rusttools,
   },
-  -- {
-  --   "simrat39/rust-tools.nvim",
-  --   ft = require("custom.configs.rust-tools").filetype,
-  --   dependencies = require("custom.configs.rust-tools").dependencies,
-  --   config = require("custom.configs.rust-tools").config,
-  -- },
-  -- {
-  --   "simrat39/rust-tools.nvim",
-  --   ft = "rust",
-  --   dependencies = "neovim/nvim-lspconfig",
-  --   opts = function()
-  --     return require "custom.configs.rust-tools"
-  --   end,
-  --   config = function(_, opts)
-  --     require("rust-tools").setup(opts)
-  --   end,
-  -- },
   {
     "saecki/crates.nvim",
     event = { "BufRead Cargo.toml" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     ft = { "toml" },
     config = function(_, opts)
+      require("crates").setup {
+        popup = {
+          autofocus = true,
+          border = "single",
+        },
+      }
       -- local crates = require "crates"
       require("crates").setup(opts)
       require("crates").show()

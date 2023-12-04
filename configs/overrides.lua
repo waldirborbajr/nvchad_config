@@ -1,3 +1,6 @@
+local key = vim.keymap
+local MASON_PATH = vim.fn.expand "$HOME/.local/share/nvim/mason/packages"
+
 local M = {}
 
 M.treesitter = {
@@ -110,6 +113,9 @@ M.nvimtree = {
   git = {
     enable = true,
     ignore = false,
+    show_on_dirs = true,
+    show_on_open_dirs = true,
+    timeout = 200,
   },
   renderer = {
     highlight_git = true,
@@ -153,7 +159,7 @@ M.nvimtree = {
   },
 }
 
-M.formatters = {
+M.conform = {
   format_on_save = {
     -- These options will be passed to conform.format()
     async = false,
@@ -236,155 +242,81 @@ M.cmp = {
   },
 }
 
--- M.chatGPT = {
---   defaults = {
---     api_key_cmd = nil,
---     yank_register = "+",
---     edit_with_instructions = {
---       diff = false,
---       keymaps = {
---         close = "<C-c>",
---         accept = "<C-y>",
---         toggle_diff = "<C-d>",
---         toggle_settings = "<C-o>",
---         cycle_windows = "<Tab>",
---         use_output_as_input = "<C-i>",
---       },
---     },
---     chat = {
---       welcome_message = WELCOME_MESSAGE,
---       loading_text = "Loading, please wait ...",
---       question_sign = "", -- 🙂
---       answer_sign = "ﮧ", -- 🤖
---       max_line_length = 120,
---       sessions_window = {
---         border = {
---           style = "rounded",
---           text = {
---             top = " Sessions ",
---           },
---         },
---         win_options = {
---           winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
---         },
---       },
---       keymaps = {
---         close = { "<C-c>" },
---         yank_last = "<C-y>",
---         yank_last_code = "<C-k>",
---         scroll_up = "<C-u>",
---         scroll_down = "<C-d>",
---         new_session = "<C-n>",
---         cycle_windows = "<Tab>",
---         cycle_modes = "<C-f>",
---         next_message = "<C-j>",
---         prev_message = "<C-k>",
---         select_session = "<Space>",
---         rename_session = "r",
---         delete_session = "d",
---         draft_message = "<C-d>",
---         edit_message = "e",
---         delete_message = "d",
---         toggle_settings = "<C-o>",
---         toggle_message_role = "<C-r>",
---         toggle_system_role_open = "<C-s>",
---         stop_generating = "<C-x>",
---       },
---     },
---     popup_layout = {
---       default = "center",
---       center = {
---         width = "80%",
---         height = "80%",
---       },
---       right = {
---         width = "30%",
---         width_settings_open = "50%",
---       },
---     },
---     popup_window = {
---       border = {
---         highlight = "FloatBorder",
---         style = "rounded",
---         text = {
---           top = " ChatGPT ",
---         },
---       },
---       win_options = {
---         wrap = true,
---         linebreak = true,
---         foldcolumn = "1",
---         winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
---       },
---       buf_options = {
---         filetype = "markdown",
---       },
---     },
---     system_window = {
---       border = {
---         highlight = "FloatBorder",
---         style = "rounded",
---         text = {
---           top = " SYSTEM ",
---         },
---       },
---       win_options = {
---         wrap = true,
---         linebreak = true,
---         foldcolumn = "2",
---         winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
---       },
---     },
---     popup_input = {
---       prompt = "  ",
---       border = {
---         highlight = "FloatBorder",
---         style = "rounded",
---         text = {
---           top_align = "center",
---           top = " Prompt ",
---         },
---       },
---       win_options = {
---         winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
---       },
---       submit = "<C-Enter>",
---       submit_n = "<Enter>",
---       max_visible_lines = 20,
---     },
---     settings_window = {
---       border = {
---         style = "rounded",
---         text = {
---           top = " Settings ",
---         },
---       },
---       win_options = {
---         winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
---       },
---     },
---     openai_params = {
---       model = "gpt-3.5-turbo",
---       frequency_penalty = 0,
---       presence_penalty = 0,
---       max_tokens = 300,
---       temperature = 0,
---       top_p = 1,
---       n = 1,
---     },
---     openai_edit_params = {
---       model = "gpt-3.5-turbo",
---       frequency_penalty = 0,
---       presence_penalty = 0,
---       temperature = 0,
---       top_p = 1,
---       n = 1,
---     },
---     use_openai_functions_for_edits = false,
---     actions_paths = {},
---     show_quickfixes_cmd = "Trouble quickfix",
---     predefined_chat_gpt_prompts = "https://raw.githubusercontent.com/f/awesome-chatgpt-prompts/main/prompts.csv",
---   },
--- }
+local rust_extension_path = MASON_PATH .. "/codelldb/extension"
+local codelldb_path = rust_extension_path .. "/adapter/codelldb"
+local liblldb_path = rust_extension_path .. "/lldb/lib/liblldb.dylib"
+
+-- rust tools
+M.rusttools = {
+  server = {
+    settings = {
+      -- to enable rust-analyzer settings visit:
+      -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+      ["rust-analyzer"] = {
+        cargo = {
+          allFeatures = true,
+          loadOutDirsFromCheck = true,
+          runBuildScripts = true,
+        },
+        -- enable clippy on save
+        checkOnSave = {
+          allFeatures = true,
+          command = "clippy",
+          extraArgs = { "--no-deps" },
+        },
+        procMacro = {
+          enable = true,
+          ignored = {
+            ["async-trait"] = { "async_trait" },
+            ["napi-derive"] = { "napi" },
+            ["async-recursion"] = { "async_recursion" },
+          },
+        },
+      },
+    },
+    on_attach = function(client, bufnr)
+      require("plugins.configs.lspconfig").on_attach(client, bufnr)
+
+      local rt = require "rust-tools"
+
+      -- general settings
+      rt.inlay_hints.enable()
+
+      -- Rust mappings
+      key.set("n", "<leader>rc", rt.hover_actions.hover_actions, { buffer = bufnr, desc = "Hover actions" })
+      key.set("n", "<leader>rr", rt.code_action_group.code_action_group, { buffer = bufnr, desc = "Code action group" })
+      key.set("n", "<leader>ro", rt.open_cargo_toml.open_cargo_toml, { desc = "Open Cargo.toml" })
+
+      -- refresh codelens on TextChanged and InsertLeave as well
+      vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave" }, {
+        buffer = bufnr,
+        callback = vim.lsp.codelens.refresh,
+      })
+    end,
+    capabilities = require("plugins.configs.lspconfig").capabilities,
+  },
+  tools = {
+    hover_actions = {
+      auto_focus = true,
+    },
+  },
+  inlay_hints = {
+    auto = true,
+    show_parameter_hints = false,
+    parameter_hints_prefix = "",
+    other_hints_prefix = "",
+  },
+  dap = {
+    adapter = {
+      type = "server",
+      port = "${port}",
+      host = "127.0.0.1",
+      executable = {
+        command = codelldb_path,
+        args = { "--liblldb", liblldb_path, "--port", "${port}" },
+      },
+    },
+  },
+}
 
 return M

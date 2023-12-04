@@ -96,77 +96,66 @@ M.crates = {
       end,
       "Reload",
     },
-
     ["<leader>cv"] = {
       function()
         require("crates").show_versions_popup()
       end,
       "Show Versions",
     },
-
     ["<leader>cf"] = {
       function()
         require("crates").show_features_popup()
       end,
       "Show Features",
     },
-
     ["<leader>cd"] = {
       function()
         require("crates").show_dependencies_popup()
       end,
       "Show Dependencies Popup",
     },
-
     ["<leader>cu"] = {
       function()
         require("crates").update_crate()
       end,
       "Update Crate",
     },
-
     ["<leader>ca"] = {
       function()
         require("crates").update_all_crates()
       end,
       "Update All Crates",
     },
-
     ["<leader>cU"] = {
       function()
         require("crates").upgrade_crate()
       end,
       "Upgrade Crate",
     },
-
     ["<leader>cA"] = {
       function()
         require("crates").upgrade_all_crates(true)
       end,
       "Upgrade All Crates",
     },
-
     ["<leader>cH"] = {
       function()
         require("crates").open_homepage()
       end,
       "Open Homepage",
     },
-
     ["<leader>cR"] = {
       function()
         require("crates").open_repository()
       end,
       "Open Repository",
     },
-
     ["<leader>cD"] = {
       function()
         require("crates").open_documentation()
       end,
       "Open Documentation",
     },
-
     ["<leader>cC"] = {
       function()
         require("crates").open_crates_io()
