@@ -177,7 +177,7 @@ local plugins = {
       "nvim-treesitter/nvim-treesitter",
     },
     config = function()
-      require("go").setup()
+      require "custom.configs.go"
     end,
     ft = { "go", "gomod", "gosum", "gowork" },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
