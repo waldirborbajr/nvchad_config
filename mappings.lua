@@ -1,19 +1,3 @@
--- ╭────────────────────────────────────────────────────────────────────────────╮
--- │  Str  │  Help page   │  Affected modes                           │  VimL   │
--- │────────────────────────────────────────────────────────────────────────────│
--- │  ''   │  mapmode-nvo │  Normal, Visual, Select, Operator-pending │  :map   │
--- │  'n'  │  mapmode-n   │  Normal                                   │  :nmap  │
--- │  'v'  │  mapmode-v   │  Visual and Select                        │  :vmap  │
--- │  's'  │  mapmode-s   │  Select                                   │  :smap  │
--- │  'x'  │  mapmode-x   │  Visual                                   │  :xmap  │
--- │  'o'  │  mapmode-o   │  Operator-pending                         │  :omap  │
--- │  '!'  │  mapmode-ic  │  Insert and Command-line                  │  :map!  │
--- │  'i'  │  mapmode-i   │  Insert                                   │  :imap  │
--- │  'l'  │  mapmode-l   │  Insert, Command-line, Lang-Arg           │  :lmap  │
--- │  'c'  │  mapmode-c   │  Command-line                             │  :cmap  │
--- │  't'  │  mapmode-t   │  Terminal                                 │  :tmap  │
--- ╰────────────────────────────────────────────────────────────────────────────╯
-
 ---@type MappingsTable
 local M = {}
 
@@ -26,14 +10,23 @@ M.bplus = {
     ["QQ"] = { "<cmd>quit<cr>", desc = "Quit" },
     ["WW"] = { "<cmd>write<cr>", desc = "Write" },
     ["!!"] = { "<cmd>qa!<cr>", desc = "Write" },
+
     ["<leader>ss"] = { ":%s/", desc = "Search and Replace RegExp" },
     ["<leader>rw"] = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], desc = "Replace current word" },
-    ["<Tab>"] = { "<cmd>bnext<cr>", desc = "Next buffer" },
-    ["<S-Tab>"] = { "<cmd>bprev<cr>", desc = "Prev buffer" },
+
     ["gh"] = { "<cmd>OpenGithubRepo<cr>", desc = "Open Github Repo" },
+
     ["<leader>ip"] = { "<cmd> Inspect<cr>", "HL Group Under Cursor" },
-    ["<C-d>"] = { "<C-d>zz", "Page down - recenter screen" },
-    ["<C-u>"] = { "<C-u>zz", "Page up - recenter screen" },
+
+    -- Custom navigation
+    ["<C-d>"] = { "<C-d>zz", desc = "Half page jump down" },
+    ["<C-u>"] = { "<C-u>zz", desc = "Half page jump up" },
+    ["<C-f>"] = { "<C-f>zz", desc = "Page jump down" },
+    ["<C-b>"] = { "<C-b>zz", desc = "Page jump up" },
+    ["<C-k>"] = { "10k", desc = "Fast scroll up" },
+    ["<C-Up>"] = { "10k", desc = "Fast scroll up" },
+    ["<C-j>"] = { "10j", desc = "Fast scroll down" },
+    ["<C-Down>"] = { "10j", desc = "Fast scroll down" },
   },
   v = {
     --copy vscode
@@ -43,6 +36,15 @@ M.bplus = {
     --copy selected+move
     ["<M-S-Up>"] = { "y`]p`]gv-gv", "copy selected up" },
     ["<M-S-Down>"] = { "yP`[gv-gv", "copy selected down" },
+
+    [">"] = { ">gv", desc = "Shift text right" },
+    ["<"] = { "<gv", desc = "Shift text left" },
+    ["<Tab>"] = { ">gv", desc = "Shift text right" },
+    ["<S-Tab>"] = { "<gv", desc = "Shift text left" },
+    ["J"] = { ":m '>+1<CR>gv=gv", desc = "Move selected block up" },
+    ["<S-Down>"] = { ":m '>+1<CR>gv=gv", desc = "Move selected block down" },
+    ["K"] = { ":m '<-2<CR>gv=gv", desc = "Move selected block down" },
+    ["<S-Up>"] = { ":m '<-2<CR>gv=gv", desc = "Move selected block up" },
   },
   i = {
     --vscode copy
@@ -63,142 +65,17 @@ M.bplus = {
   },
 }
 
-M.dap = {
-  plugin = true,
-  n = {
-    ["<leader>dc"] = { ":lua require'dap'.continue()<cr>", "Continue", opts = { silent = true } },
-    ["<leader>do"] = { ":lua require'dap'.step_over()<cr>", "Step Over", opts = { silent = true } },
-    ["<leader>di"] = { ":lua require'dap'.step_into()<cr>", "Step Into", opts = { silent = true } },
-    ["<leader>du"] = { ":lua require'dap'.step_out()<cr>", "Step Out", opts = { silent = true } },
-    ["<leader>db"] = { ":lua require'dap'.toggle_breakpoint()<cr>", "Breakpoint", opts = { silent = true } },
-    ["<leader>dB"] = {
-      ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>",
-      "Breakpoint Condition",
-      opts = { silent = true },
-    },
-    ["<leader>dd"] = { ":lua require'dapui'.toggle()<cr>", "Dap UI", opts = { silent = true } },
-    ["<leader>dl"] = { ":lua require'dap'.run_last()<cr>", "Run Last", opts = { silent = true } },
-  },
-}
-
-M.crates = {
-  plugin = true,
-  n = {
-    ["<leader>cp"] = {
-      function()
-        require("crates").show_popup()
-      end,
-      "Show popup",
-    },
-    ["<leader>cr"] = {
-      function()
-        require("crates").reload()
-      end,
-      "Reload",
-    },
-    ["<leader>cv"] = {
-      function()
-        require("crates").show_versions_popup()
-      end,
-      "Show Versions",
-    },
-    ["<leader>cf"] = {
-      function()
-        require("crates").show_features_popup()
-      end,
-      "Show Features",
-    },
-    ["<leader>cd"] = {
-      function()
-        require("crates").show_dependencies_popup()
-      end,
-      "Show Dependencies Popup",
-    },
-    ["<leader>cu"] = {
-      function()
-        require("crates").update_crate()
-      end,
-      "Update Crate",
-    },
-    ["<leader>ca"] = {
-      function()
-        require("crates").update_all_crates()
-      end,
-      "Update All Crates",
-    },
-    ["<leader>cU"] = {
-      function()
-        require("crates").upgrade_crate()
-      end,
-      "Upgrade Crate",
-    },
-    ["<leader>cA"] = {
-      function()
-        require("crates").upgrade_all_crates(true)
-      end,
-      "Upgrade All Crates",
-    },
-    ["<leader>cH"] = {
-      function()
-        require("crates").open_homepage()
-      end,
-      "Open Homepage",
-    },
-    ["<leader>cR"] = {
-      function()
-        require("crates").open_repository()
-      end,
-      "Open Repository",
-    },
-    ["<leader>cD"] = {
-      function()
-        require("crates").open_documentation()
-      end,
-      "Open Documentation",
-    },
-    ["<leader>cC"] = {
-      function()
-        require("crates").open_crates_io()
-      end,
-      "Open Crate.io",
-    },
-  },
-}
-
-M.rust = {
-  n = {
-    ["<leader>rra"] = { require("custom.configs.rust-tools").hover_actions, "Hover Actions" },
-    ["<leader>rca"] = { "<cmd>RustCodeAction<Cr>", "Code Actions" },
-    ["<leader>rrr"] = { "<cmd>RustRunnables<Cr>", "Runnables" },
-    ["<leader>rre"] = { "<cmd>RustExpandMacro<Cr>", "Expand Macro" },
-    ["<leader>rrc"] = { "<cmd>RustOpenCargo<Cr>", "Open Cargo" },
-    ["<leader>rrp"] = { "<cmd>RustParentModule<Cr>", "Parent Module" },
-    ["<leader>rrd"] = { "<cmd>RustDebuggables<Cr>", "Debuggables" },
-    ["<leader>rrg"] = { "<cmd>RustViewCrateGraph<Cr>", "View Crate Graph" },
-    ["<leader>rrj"] = {
-      function()
-        require("rust-tools").join_lines.join_lines()
-      end,
-      "Join Lines",
-    },
-    ["<leader>rrt"] = {
-      function()
-        require("rust-tools")._CARGO_TEST()
-      end,
-      "Cargo Test",
-    },
-    ["<leader>rrR"] = {
-      function()
-        require("rust-tools/workspace_refresh")._reload_workspace_from_cargo_toml()
-      end,
-      "Reload Workspace",
-    },
-  },
-}
-
 M.general = {
   n = {
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
+
+    --  format with conform
+    ["<leader>fm"] = {
+      function()
+        require("conform").format()
+      end,
+      "formatting",
+    },
   },
   v = {
     [">"] = { ">gv", "indent" },
@@ -206,5 +83,17 @@ M.general = {
 }
 
 -- more keybinds!
+
+M.crates = {
+  plugin = true,
+  n = {
+    ["<leader>rcu"] = {
+      function()
+        require("crates").upgrade_all_crates()
+      end,
+      "update crates",
+    },
+  },
+}
 
 return M
