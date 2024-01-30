@@ -61,7 +61,8 @@ local plugins = {
 
   {
     "Exafunction/codeium.vim",
-    lazy = false,
+    event = "InsertEnter",
+    -- lazy = false,
     -- event = "VeryLazy",
     config = function()
       vim.keymap.set("i", "<C-g>", function()
@@ -130,6 +131,56 @@ local plugins = {
       crates.show()
       require("core.utils").load_mappings "crates"
     end,
+  },
+
+  -- GO
+  {
+    "olexsmir/gopher.nvim",
+    event = "VeryLazy",
+    ft = "go",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      -- "leoluz/nvim-dap-go",
+    },
+    -- config = function(_, opts)
+    --   require("gopher").setup(opts)
+    -- end,
+    config = function()
+      local gopher = require "gopher"
+      gopher.setup {
+        commands = {
+          go = "go",
+          gomodifytags = "gomodifytags",
+          gotests = "gotests",
+          impl = "impl",
+          iferr = "iferr",
+        },
+        goimport = "gopls",
+        gofmt = "gopls",
+      }
+    end,
+    build = function()
+      vim.cmd [[silent! GoInstallDeps]]
+    end,
+  },
+  {
+    "ray-x/go.nvim",
+    event = "VeryLazy",
+    -- event = { "CmdlineEnter" },
+    dependencies = { -- optional packages
+      {
+        "ray-x/guihua.lua",
+        build = "cd lua/fzy && make",
+      },
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("go").setup()
+    end,
+    ft = { "go", "gomod", "gosum", "gowork" },
+    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
 
   -- To make a plugin not be loaded
