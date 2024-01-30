@@ -38,6 +38,7 @@ M.mason = {
 
     -- rust
     "rust-analyzer",
+    "taplo", --for toml lsp
 
     -- markdown
     "marksman",
@@ -49,16 +50,6 @@ M.mason = {
     "gopls",
     "goimports",
     "gotests",
-
-    -- "gofumpt",
-    -- "glint",
-    -- "go-debug-adapter",
-    -- "goimports-reviser",
-    -- "golangci-lint",
-    -- "golangci-lint-langserver",
-    -- "golines",
-    -- "gotests",
-    -- "gotestsum",
   },
 }
 

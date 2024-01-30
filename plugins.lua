@@ -125,10 +125,10 @@ local plugins = {
     config = function(_, opts)
       local crates = require "crates"
       crates.setup(opts)
+      crates.show()
       require("cmp").setup.buffer {
         sources = { { name = "crates" } },
       }
-      crates.show()
       require("core.utils").load_mappings "crates"
     end,
   },
@@ -181,6 +181,26 @@ local plugins = {
     end,
     ft = { "go", "gomod", "gosum", "gowork" },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+  },
+
+  -- Obsidian
+  {
+    "epwalsh/obsidian.nvim",
+    version = "*",
+    event = "VeryLazy",
+    ft = "markdown",
+    dependencies = { -- optional packages
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+      require("obsidian").setup {
+        dir = "~/wks/2ndBrain/Annotation",
+        disable_frontmatter = true,
+        completion = {
+          nvim_cmp = true,
+        },
+      }
+    end,
   },
 
   -- To make a plugin not be loaded
