@@ -1,7 +1,8 @@
 local on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = require("plugins.configs.lspconfig").capabilities
-local lspconfig = require "lspconfig"
 local util = require "lspconfig/util"
+
+local lspconfig = require "lspconfig"
 
 -- if you just want default config for the servers then put them in a table
 local servers = { "gopls", "golangci_lint_ls", "dockerls", "rust_analyzer", "yamlls" }
@@ -14,31 +15,17 @@ local custom_on_attach = function(client, bufnr)
   end
 end
 
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    -- on_attach = on_attach,
-    on_attach = custom_on_attach,
-    capabilities = capabilities,
-  }
-end
-
 vim.diagnostic.config {
   virtual_text = false,
   underline = true,
 }
 
---
--- lspconfig.pyright.setup { blabla}
-
--- lspconfig.lua_ls.setup {
---   settings = {
---     Lua = {
---       diagnostics = {
---         globals = { "vim" },
---       },
---     },
---   },
--- }
+for _, lsp in ipairs(servers) do
+  lspconfig[lsp].setup {
+    on_attach = custom_on_attach,
+    capabilities = capabilities,
+  }
+end
 
 lspconfig.gopls.setup {
   on_attach = on_attach,
@@ -83,36 +70,6 @@ lspconfig.gopls.setup {
   },
 }
 
--- YAML
-lspconfig.yamlls.setup {
-  capabilities = capabilities,
-  -- flags = default_flags,
-  settings = {
-    yaml = {
-      schemas = {
-        ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-      },
-    },
-  },
-  on_attach = on_attach,
-}
 
--- lspconfig.rust_analyzer.setup {
---   on_attach = on_attach,
---   capabilities = capabilities,
---   filetypes = { "rust" },
---   root_dir = lspconfig.util.root_pattern "Cargo.toml",
--- }
-
--- lspconfig.rust_analyzer.setup {
---   settings = {
---     ["rust-analyzer"] = {
---       cargo = {
---         allFeatures = true,
---       },
---       -- checkOnSave = {
---       --   command = "clippy",
---       -- },
---     },
---   },
--- }
+-- 
+-- lspconfig.pyright.setup { blabla}
