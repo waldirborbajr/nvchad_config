@@ -46,19 +46,21 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
 -- Find files
-vim.opt.path:append({ "**" })
+vim.opt.path:append { "**" }
 -- Ignore Files
-vim.opt.wildignore:append({
-	-- Git
-	"**/.git/*",
-	-- Python
-	"**/.pyc",
-	-- Rust
-	"**/target/",
-	-- JS/TS
-	"*/node_modules/*",
-	-- Mobile
-	"**/ios/*",
-	"**/android/*",
-})
+vim.opt.wildignore:append {
+  -- Git
+  "**/.git/*",
+  -- Python
+  "**/.pyc",
+  -- Rust
+  "**/target/",
+  -- JS/TS
+  "*/node_modules/*",
+  -- Mobile
+  "**/ios/*",
+  "**/android/*",
+}
 
+-- obsidian conceallevel
+vim.opt_local.conceallevel = 1
