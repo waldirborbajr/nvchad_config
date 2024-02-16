@@ -95,11 +95,29 @@ local plugins = {
     dependencies = { { "MunifTanjim/nui.nvim" }, { "rcarriga/nvim-notify" } },
   },
 
+  {
+    "mfussenegger/nvim-dap",
+    init = function()
+      require("core.utils").load_mappings("dap")
+    end
+  },
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    lazy = false,
+    config = function(_, opts)
+      require("nvim-dap-virtual-text").setup()
+    end
+  },
+
   -- Rust
   {
     "mrcjkb/rustaceanvim",
-    version = "^4", -- Recommended
+    version = "^4",
     ft = { "rust" },
+    dependencies = "neovim/nvim-lspconfig",
+    config = function()
+      require "custom.configs.rustaceanvim"
+    end
   },
   -- deprecated
   -- {
@@ -120,28 +138,32 @@ local plugins = {
       require("rust-tools").setup(opts)
     end,
   },
-  {
-    "saecki/crates.nvim",
-    dependencies = "hrsh7th/nvim-cmp", 
-    ft = { "toml", "rust" },
+ {
+    'saecki/crates.nvim',
+    ft = {"toml"},
     config = function(_, opts)
-      local crates = require "crates"
+      local crates  = require('crates')
       crates.setup(opts)
+      require('cmp').setup.buffer({
+        sources = { { name = "crates" }}
+      })
       crates.show()
-      -- require("cmp").setup.buffer {
-      --   sources = { { name = "crates" } },
-      -- }
-      -- require("core.utils").load_mappings "crates"
+      require("core.utils").load_mappings("crates")
     end,
   },
   {
-    "hrsh7th/nvim-cmp", 
+    "hrsh7th/nvim-cmp",
     opts = function()
-      local M = requires"plugins.configs.cmp"
-      table.insert(M.sources, {name="crates"})
+      local M = require "plugins.configs.cmp"
+      M.completion.completeopt = "menu,menuone,noselect"
+      M.mapping["<CR>"] = cmp.mapping.confirm {
+        behavior = cmp.ConfirmBehavior.Insert,
+        select = false,
+      }
+      table.insert(M.sources, {name = "crates"})
       return M
     end,
-    },
+  }
 
   -- GO
   {
