@@ -121,17 +121,26 @@ local plugins = {
   },
   {
     "saecki/crates.nvim",
-    ft = { "toml" },
+    dependencies = "hrsh7th/nvim-cmp", 
+    ft = { "toml", "rust" },
     config = function(_, opts)
       local crates = require "crates"
       crates.setup(opts)
       crates.show()
-      require("cmp").setup.buffer {
-        sources = { { name = "crates" } },
-      }
-      require("core.utils").load_mappings "crates"
+      -- require("cmp").setup.buffer {
+      --   sources = { { name = "crates" } },
+      -- }
+      -- require("core.utils").load_mappings "crates"
     end,
   },
+  {
+    "hrsh7th/nvim-cmp", 
+    opts = function()
+      local M = requires"plugins.configs.cmp"
+      table.insert(M.sources, {name="crates"})
+      return M
+    end,
+    },
 
   -- GO
   {
