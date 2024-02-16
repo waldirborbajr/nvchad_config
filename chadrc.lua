@@ -5,24 +5,12 @@ local M = {}
 local highlights = require "custom.highlights"
 
 M.ui = {
-  theme = "onedark",
-  theme_toggle = { "onedark", "one_light" },
+  theme = "onenord",
+  theme_toggle = { "onenord", "one_light" },
 
   hl_override = highlights.override,
   hl_add = highlights.add,
-}
-
-vim.g.rustaceanvim = {
-  tools = {},
-  server = {
-    on_attach = function(client, _)
-      client.server_capabilities.semanticTokensProvider = nil
-    end,
-    settings = {
-      ["rust-analyzer"] = {},
-    },
-  },
-  dap = {},
+  lsp_semantic_tokens = true,
 }
 
 M.plugins = "custom.plugins"

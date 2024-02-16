@@ -64,41 +64,84 @@ local plugins = {
     event = "InsertEnter",
     -- lazy = false,
     -- event = "VeryLazy",
-  config = function()
-    vim.keymap.set("i", "<C-g>", function() return vim.fn["codeium#Accept"]() end, { expr = true })
-    vim.keymap.set("i", "<c-;>", function() return vim.fn["codeium#CycleCompletions"](1) end, { expr = true })
-    vim.keymap.set("i", "<c-,>", function() return vim.fn["codeium#CycleCompletions"](-1) end, { expr = true })
-    vim.keymap.set("i", "<c-x>", function() return vim.fn["codeium#Clear"]() end, { expr = true })
-    vim.keymap.set("n", "<leader>;", function()
-      if vim.g.codeium_enabled == true then
-        vim.cmd "CodeiumDisable"
-      else
-        vim.cmd "CodeiumEnable"
-      end
-    end, { noremap = true, desc = "Toggle Codeium active" })
-  end,
+    config = function()
+      vim.keymap.set("i", "<C-g>", function()
+        return vim.fn["codeium#Accept"]()
+      end, { expr = true })
+      vim.keymap.set("i", "<c-;>", function()
+        return vim.fn["codeium#CycleCompletions"](1)
+      end, { expr = true })
+      vim.keymap.set("i", "<c-,>", function()
+        return vim.fn["codeium#CycleCompletions"](-1)
+      end, { expr = true })
+      vim.keymap.set("i", "<c-x>", function()
+        return vim.fn["codeium#Clear"]()
+      end, { expr = true })
+      vim.keymap.set("n", "<leader>;", function()
+        if vim.g.codeium_enabled == true then
+          vim.cmd "CodeiumDisable"
+        else
+          vim.cmd "CodeiumEnable"
+        end
+      end, { noremap = true, desc = "Toggle Codeium active" })
+    end,
   },
 
-  -- UI for messages, cmdline, and popup
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = require "custom.configs.noice",
-    dependencies = { { "MunifTanjim/nui.nvim" }, { "rcarriga/nvim-notify" } },
-  },
-
+  -- DAP
   {
     "mfussenegger/nvim-dap",
-    init = function()
-      require("core.utils").load_mappings("dap")
-    end
+    config = function(_, _opts)
+      require("core.utils").load_mappings "dap"
+    end,
+  },
+  {
+    "jay-babu/mason-nvim-dap.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "mfussenegger/nvim-dap",
+      "rcarriga/nvim-dap-ui",
+    },
+    opts = {
+      handlers = {},
+    },
+  },
+  {
+    "leoluz/nvim-dap-go",
+    ft = "go",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "rcarriga/nvim-dap-ui",
+    },
+    config = function(_, opts)
+      require("dap-go").setup(opts)
+      require("core.utils").load_mappings "dap_go"
+    end,
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = "mfussenegger/nvim-dap",
+    config = function()
+      local dap = require "dap"
+      local dapui = require "dapui"
+      require("dapui").setup()
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        dapui.close()
+      end
+    end,
   },
   {
     "theHamsta/nvim-dap-virtual-text",
     lazy = false,
     config = function(_, opts)
       require("nvim-dap-virtual-text").setup()
-    end
+    end,
   },
 
   -- Rust
@@ -106,10 +149,9 @@ local plugins = {
     "mrcjkb/rustaceanvim",
     version = "^4",
     ft = { "rust" },
-    dependencies = "neovim/nvim-lspconfig",
-    config = function()
-      require "custom.configs.rustaceanvim"
-    end
+    -- config = function()
+    --   require "custom.configs.rustaceanvim"
+    -- end,
   },
   {
     "rust-lang/rust.vim",
@@ -119,42 +161,18 @@ local plugins = {
     end,
   },
   {
-    "simrat39/rust-tools.nvim",
-    ft = "rust",
-    dependencies = "neovim/nvim-lspconfig",
-    opts = function()
-      return require "custom.configs.rust-tools"
-    end,
+    "saecki/crates.nvim",
+    ft = { "toml" },
     config = function(_, opts)
-      require("rust-tools").setup(opts)
-    end,
-  },
- {
-    'saecki/crates.nvim',
-    ft = {"toml"},
-    config = function(_, opts)
-      local crates  = require('crates')
+      local crates = require "crates"
       crates.setup(opts)
-      require('cmp').setup.buffer({
-        sources = { { name = "crates" }}
-      })
+      require("cmp").setup.buffer {
+        sources = { { name = "crates" } },
+      }
       crates.show()
-      require("core.utils").load_mappings("crates")
+      require("core.utils").load_mappings "crates"
     end,
   },
-  {
-    "hrsh7th/nvim-cmp",
-    opts = function()
-      local M = require "plugins.configs.cmp"
-      M.completion.completeopt = "menu,menuone,noselect"
-      M.mapping["<CR>"] = cmp.mapping.confirm {
-        behavior = cmp.ConfirmBehavior.Insert,
-        select = false,
-      }
-      table.insert(M.sources, {name = "crates"})
-      return M
-    end,
-  }
 
   -- GO
   {
@@ -164,46 +182,13 @@ local plugins = {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
-      -- "leoluz/nvim-dap-go",
     },
-    -- config = function(_, opts)
-    --   require("gopher").setup(opts)
-    -- end,
-    config = function()
-      local gopher = require "gopher"
-      gopher.setup {
-        commands = {
-          go = "go",
-          gomodifytags = "gomodifytags",
-          gotests = "gotests",
-          impl = "impl",
-          iferr = "iferr",
-        },
-        goimport = "gopls",
-        gofmt = "gopls",
-      }
+    config = function(_, opts)
+      require("gopher").setup(opts)
     end,
     build = function()
       vim.cmd [[silent! GoInstallDeps]]
     end,
-  },
-  {
-    "ray-x/go.nvim",
-    event = "VeryLazy",
-    -- event = { "CmdlineEnter" },
-    dependencies = { -- optional packages
-      {
-        "ray-x/guihua.lua",
-        build = "cd lua/fzy && make",
-      },
-      "neovim/nvim-lspconfig",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-      require "custom.configs.go"
-    end,
-    ft = { "go", "gomod", "gosum", "gowork" },
-    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
 
   -- Obsidian
@@ -217,7 +202,7 @@ local plugins = {
     },
     config = function()
       require("obsidian").setup {
-        dir = "~/wks/2ndBrain/Annotation",
+        dir = "~/wks/2ndBrain/",
         disable_frontmatter = true,
         completion = {
           nvim_cmp = true,

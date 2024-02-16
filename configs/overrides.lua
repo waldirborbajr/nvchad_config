@@ -38,7 +38,13 @@ M.mason = {
 
     -- rust
     "rust-analyzer",
-    "taplo", --for toml lsp
+    -- "taplo", --for toml lsp
+
+    -- Python
+    -- "black",
+    -- "python-lsp-server",
+    -- "pyright",
+    -- "debugpy",
 
     -- markdown
     "marksman",
@@ -48,8 +54,8 @@ M.mason = {
 
     -- go stuff
     "gopls",
-    "goimports",
-    "gotests",
+    "goimports-reviser",
+    "golines",
   },
 }
 
