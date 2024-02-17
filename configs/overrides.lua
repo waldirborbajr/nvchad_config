@@ -41,10 +41,10 @@ M.mason = {
     -- "taplo", --for toml lsp
 
     -- Python
-    -- "black",
-    -- "python-lsp-server",
-    -- "pyright",
-    -- "debugpy",
+    "black",
+    "python-lsp-server",
+    "pyright",
+    "debugpy",
 
     -- markdown
     "marksman",
