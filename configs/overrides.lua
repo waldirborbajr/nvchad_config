@@ -56,6 +56,7 @@ M.mason = {
     "gopls",
     "goimports-reviser",
     "golines",
+    "gofumpt",
   },
 }
 
@@ -63,6 +64,12 @@ M.mason = {
 M.nvimtree = {
   git = {
     enable = true,
+  },
+
+  filters = {
+    dotfiles = false,
+    custom = { "^.git$" },
+    git_ignored = false,
   },
 
   renderer = {
