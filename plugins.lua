@@ -90,7 +90,7 @@ local plugins = {
   -- DAP
   {
     "mfussenegger/nvim-dap",
-    config = function(_, _opts)
+    init = function()
       require("core.utils").load_mappings "dap"
     end,
   },
@@ -149,9 +149,10 @@ local plugins = {
     "mrcjkb/rustaceanvim",
     version = "^4",
     ft = { "rust" },
-    -- config = function()
-    --   require "custom.configs.rustaceanvim"
-    -- end,
+    dependencies = "neovim/nvim-lspconfig",
+    config = function()
+      require "custom.configs.rustaceanvim"
+    end,
   },
   {
     "rust-lang/rust.vim",
@@ -177,7 +178,6 @@ local plugins = {
   -- GO
   {
     "olexsmir/gopher.nvim",
-    event = "VeryLazy",
     ft = "go",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -185,6 +185,7 @@ local plugins = {
     },
     config = function(_, opts)
       require("gopher").setup(opts)
+      require("core.utils").load_mappings "gopher"
     end,
     build = function()
       vim.cmd [[silent! GoInstallDeps]]
