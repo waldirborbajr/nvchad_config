@@ -1,4 +1,5 @@
 local overrides = require "custom.configs.overrides"
+local cmp = require "cmp"
 
 ---@type NvPluginSpec[]
 local plugins = {
@@ -209,6 +210,29 @@ local plugins = {
           nvim_cmp = true,
         },
       }
+    end,
+  },
+
+  {
+    "hrsh7th/nvim-cmp",
+    opts = function()
+      local M = require "plugins.configs.cmp"
+      M.completion.completeopt = "menu,menuone,noselect"
+      M.mapping["<CR>"] = cmp.mapping.confirm {
+        behavior = cmp.ConfirmBehavior.Insert,
+        select = false,
+      }
+
+      M.mapping["<C-j>"] = cmp.mapping(function(_fallback)
+        cmp.mapping.abort()
+        require("copilot.suggestion").accept_line()
+      end, {
+        "i",
+        "s",
+      })
+
+      table.insert(M.sources, { name = "crates" })
+      return M
     end,
   },
 
