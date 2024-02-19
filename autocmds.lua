@@ -1,12 +1,41 @@
+-- Autocmds are automatically loaded on the VeryLazy event
+-- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
+-- Add any additional autocmds here
 local autocmd = vim.api.nvim_create_autocmd
+local create_cmd = vim.api.nvim_create_user_command
 local cmd = vim.api.nvim_command
-local augroup = vim.api.nvim_create_augroup
+-- local augroup = vim.api.nvim_create_augroup
 -- local settings = require("custom.chadrc").settings
 local fn = vim.fn
 
 local function augroup(name)
   return vim.api.nvim_create_augroup("lit_" .. name, { clear = true })
 end
+
+--[[Autosave functionality for Markdown files]]
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.conceallevel = 2
+    ---@diagnostic disable-next-line: inject-field
+    vim.b.autosave = true
+  end,
+})
+
+local function autosave()
+  if vim.b.autosave then
+    if vim.b.autoformat then
+      ---@diagnostic disable-next-line: inject-field
+      vim.b.autoformat = false -- Obviously if autosave is on, autoformat should be off
+    end
+    vim.cmd "silent! write"
+  end
+end
+
+autocmd({ "TextChanged", "InsertLeave" }, {
+  pattern = "*.md",
+  callback = autosave,
+})
 
 -- Disable continuation comment on next line
 autocmd("User", {
@@ -89,15 +118,13 @@ autocmd("BufWritePost", {
 })
 
 -- Nvimtree open file on creation
-local function open_file_created()
-  require("nvim-tree.api").events.subscribe("FileCreated", function(file)
-    vim.cmd("edit " .. file.fname)
-  end)
-end
-
-autocmd({ "VimEnter" }, {
-  callback = open_file_created,
-})
+-- local function open_file_created()
+--   require("nvim-tree.api").events.subscribe("FileCreated", function(file) vim.cmd("edit " .. file.fname) end)
+-- end
+--
+-- autocmd({ "VimEnter" }, {
+--   callback = open_file_created,
+-- })
 
 -- prevent comment from being inserted when entering new line in existing comment
 autocmd("BufEnter", {
@@ -110,5 +137,92 @@ autocmd("BufEnter", {
     vim.opt.comments:remove ":%"
   end,
 })
+
+-- disable completion on markdown files by default
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "gitcommit", "markdown" },
+  callback = function()
+    require("cmp").setup { enabled = false }
+  end,
+})
+
+-- wrap and check for spell in text filetypes
+-- added to disable spelling
+vim.api.nvim_create_autocmd("FileType", {
+  -- group = augroup("wrap_spell"),
+  pattern = { "gitcommit", "markdown", "pandoc" },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.spell = false
+  end,
+})
+
+vim.api.nvim_create_autocmd("filetype", {
+  -- group = augroup("wrap_spell"),
+  pattern = { "gitcommit", "markdown", "pandoc" },
+  command = "set nospell",
+})
+
+-- Turn off paste mode when leaving insert
+vim.api.nvim_create_autocmd("InsertLeave", {
+  pattern = "*",
+  command = "set nopaste",
+})
+
+-- Disable the concealing in some file formats
+-- The default conceallevel is 3 in LazyVim
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "json", "jsonc", "markdown" },
+  callback = function()
+    vim.opt.conceallevel = 0
+  end,
+})
+
+---- Commands
+-------------------------------------------------------------------------------
+
+-- Open Github repository
+create_cmd("OpenGithubRepo", function(_)
+  local ghpath = vim.api.nvim_eval "shellescape(expand('<cfile>'))"
+  local formatpath = ghpath:sub(2, #ghpath - 1)
+  local repourl = "https://www.github.com/" .. formatpath
+  vim.fn.system { "xdg-open", repourl }
+end, {
+  desc = "Open Github Repo",
+  force = true,
+})
+
+-- Format command
+create_cmd("Format", function(args)
+  local range = nil
+  if args.count ~= -1 then
+    local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+    range = {
+      start = { args.line1, 0 },
+      ["end"] = { args.line2, end_line:len() },
+    }
+  end
+  require("conform").format { async = true, lsp_fallback = true, range = range }
+end, { range = true })
+
+-- Command to toggle inline diagnostics
+create_cmd("DiagnosticsToggleVirtualText", function()
+  local current_value = vim.diagnostic.config().virtual_text
+  if current_value then
+    vim.diagnostic.config { virtual_text = false }
+  else
+    vim.diagnostic.config { virtual_text = true }
+  end
+end, {})
+
+-- Command to toggle diagnostics
+create_cmd("DiagnosticsToggle", function()
+  local current_value = vim.diagnostic.is_disabled()
+  if current_value then
+    vim.diagnostic.enable()
+  else
+    vim.diagnostic.disable()
+  end
+end, {})
 
 -- https://github.com/BrunoKrugel/dotfiles/blob/master/utils/autocmd.lua
